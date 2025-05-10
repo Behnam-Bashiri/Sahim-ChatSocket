@@ -9,9 +9,9 @@ from drf_yasg import openapi
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Messaging API",
+        title="Messenger Sahim API",
         default_version="v1",
-        description="API documentation for the messaging app",
+        description="API documentation for the Messenger Sahim app",
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),

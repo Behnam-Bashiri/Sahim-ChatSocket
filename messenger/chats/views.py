@@ -1,28 +1,45 @@
-# chat/views.py
 from rest_framework import generics, status
 from rest_framework.response import Response
 from .services import ChatService
 from accounts.models import UserProfile
-from .serializers import MessageSerializer
+from .serializers import MessageSerializer, FileMessageSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from django.db.models import Q
-from .models import Chat
+from .models import Chat, FileMessage
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
-from .models import FileMessage
-from .serializers import FileMessageSerializer
 from .tasks import compress_chat_file
+from rest_framework import serializers
 
 
 class ChatListView(generics.ListAPIView):
     serializer_class = MessageSerializer
+    permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(
         operation_summary="دریافت لیست چت‌های کاربر",
-        responses={200: "لیست چت‌ها با پیام‌ها و اطلاعات کاربران"},
+        operation_description="این API همه چت‌هایی که کاربر در آن‌ها عضو است را همراه با پیام‌ها و اطلاعات شرکت‌کنندگان برمی‌گرداند.",
+        responses={
+            200: openapi.Response(
+                "موفق",
+                examples={
+                    "application/json": {
+                        "chat_id": 1,
+                        "participants": [
+                            {
+                                "phone_number": "0912...",
+                                "first_name": "Ali",
+                                "last_name": "Ahmadi",
+                            }
+                        ],
+                        "messages": [],
+                    }
+                },
+            )
+        },
     )
     def get(self, request, *args, **kwargs):
         user = request.user
@@ -55,28 +72,42 @@ class ChatUserListView(APIView):
     permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(
-        operation_summary="دریافت لیست کاربران با قابلیت جست‌وجو",
+        operation_summary="جستجوی کاربران با فیلتر نام یا شماره",
+        operation_description="امکان فیلتر کاربران بر اساس نام، نام خانوادگی یا شماره تلفن فراهم است.",
         manual_parameters=[
             openapi.Parameter(
                 "phone_number",
                 openapi.IN_QUERY,
-                description="جست‌وجو با شماره تلفن",
                 type=openapi.TYPE_STRING,
+                description="شماره تلفن",
             ),
             openapi.Parameter(
                 "first_name",
                 openapi.IN_QUERY,
-                description="جست‌وجو با نام",
                 type=openapi.TYPE_STRING,
+                description="نام",
             ),
             openapi.Parameter(
                 "last_name",
                 openapi.IN_QUERY,
-                description="جست‌وجو با نام خانوادگی",
                 type=openapi.TYPE_STRING,
+                description="نام خانوادگی",
             ),
         ],
-        responses={200: "لیست کاربران پیدا شده"},
+        responses={
+            200: openapi.Response(
+                "لیست کاربران",
+                examples={
+                    "application/json": [
+                        {
+                            "phone_number": "0912...",
+                            "first_name": "Ali",
+                            "last_name": "Ahmadi",
+                        }
+                    ]
+                },
+            )
+        },
     )
     def get(self, request):
         phone_number = request.query_params.get("phone_number", "").strip()
@@ -110,19 +141,32 @@ class ChatUserListView(APIView):
 
 
 class CreateChatView(APIView):
+    permission_classes = [IsAuthenticated]
+
     @swagger_auto_schema(
-        operation_summary="ایجاد چت جدید بین دو کاربر",
+        operation_summary="ایجاد چت جدید",
+        operation_description="ایجاد یک چت بین کاربر جاری و کاربر دیگر از طریق شماره تلفن.",
         request_body=openapi.Schema(
             type=openapi.TYPE_OBJECT,
             required=["user2_phone_number"],
             properties={
                 "user2_phone_number": openapi.Schema(
-                    type=openapi.TYPE_STRING, description="شماره تلفن کاربر دوم"
-                ),
+                    type=openapi.TYPE_STRING, description="شماره تلفن طرف مقابل"
+                )
             },
             example={"user2_phone_number": "09121234567"},
         ),
-        responses={201: "چت با موفقیت ساخته شد"},
+        responses={
+            201: openapi.Response(
+                "چت ایجاد شد",
+                examples={
+                    "application/json": {
+                        "chat_id": 2,
+                        "participants": ["0912...", "0935..."],
+                    }
+                },
+            )
+        },
     )
     def post(self, request):
         user1 = request.user
@@ -141,9 +185,25 @@ class CreateChatView(APIView):
 
 
 class PreviousChatUsersView(APIView):
+    permission_classes = [IsAuthenticated]
+
     @swagger_auto_schema(
-        operation_summary="دریافت لیست کاربران چت‌شده قبلی",
-        responses={200: "لیست یکتا از کاربرانی که قبلاً با آن‌ها چت شده"},
+        operation_summary="کاربران قبلی چت",
+        operation_description="برمی‌گرداند لیست کاربران یکتایی که کاربر با آن‌ها چت داشته است.",
+        responses={
+            200: openapi.Response(
+                "لیست کاربران قبلی",
+                examples={
+                    "application/json": [
+                        {
+                            "phone_number": "0912...",
+                            "first_name": "Sara",
+                            "last_name": "Khosravi",
+                        }
+                    ]
+                },
+            )
+        },
     )
     def get(self, request):
         user = request.user
@@ -154,7 +214,6 @@ class PreviousChatUsersView(APIView):
             participants = chat.participants.exclude(id=user.id)
             user_ids.update(participants.values_list("id", flat=True))
 
-        # گرفتن اطلاعات کاربران یکتا
         users = UserProfile.objects.filter(id__in=user_ids)
 
         data = [
@@ -171,9 +230,24 @@ class PreviousChatUsersView(APIView):
 
 
 class ChatMessagesWithUserView(APIView):
+    permission_classes = [IsAuthenticated]
+
     @swagger_auto_schema(
-        operation_summary="دریافت پیام‌های یک چت بین دو کاربر",
-        responses={200: "پیام‌های چت", 404: "چت بین کاربران یافت نشد"},
+        operation_summary="دریافت پیام‌های چت با یک کاربر خاص",
+        operation_description="دریافت پیام‌های رد و بدل شده با یک کاربر خاص از طریق شماره تلفن.",
+        responses={
+            200: openapi.Response(
+                "پیام‌ها",
+                examples={
+                    "application/json": {
+                        "chat_id": 1,
+                        "participants": ["0912...", "0935..."],
+                        "messages": [],
+                    }
+                },
+            ),
+            404: "چت یافت نشد",
+        },
     )
     def get(self, request, phone_number):
         user1 = request.user
@@ -201,10 +275,25 @@ class ChatMessagesWithUserView(APIView):
         )
 
 
+class FileUploadSerializer(serializers.Serializer):
+    file = serializers.FileField()
+
+
 class FileUploadAPIView(APIView):
     parser_classes = [MultiPartParser, FormParser]
     permission_classes = [IsAuthenticated]
 
+    @swagger_auto_schema(
+        operation_summary="آپلود فایل",
+        request_body=FileUploadSerializer,
+        responses={
+            200: openapi.Response(
+                description="فایل با موفقیت آپلود شد",
+                examples={"application/json": {"detail": "File uploaded successfully"}},
+            ),
+            400: openapi.Response(description="خطا در آپلود فایل"),
+        },
+    )
     def post(self, request, chat_id):
         chat = get_object_or_404(Chat, id=chat_id)
 
