@@ -8,11 +8,18 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from django.db.models import Q
 from .models import Chat
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
+from rest_framework.permissions import IsAuthenticated
 
 
 class ChatListView(generics.ListAPIView):
     serializer_class = MessageSerializer
 
+    @swagger_auto_schema(
+        operation_summary="دریافت لیست چت‌های کاربر",
+        responses={200: "لیست چت‌ها با پیام‌ها و اطلاعات کاربران"},
+    )
     def get(self, request, *args, **kwargs):
         user = request.user
         chats = ChatService.get_chats_for_user(user)
@@ -41,13 +48,48 @@ class ChatListView(generics.ListAPIView):
 
 
 class ChatUserListView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(
+        operation_summary="دریافت لیست کاربران با قابلیت جست‌وجو",
+        manual_parameters=[
+            openapi.Parameter(
+                "phone_number",
+                openapi.IN_QUERY,
+                description="جست‌وجو با شماره تلفن",
+                type=openapi.TYPE_STRING,
+            ),
+            openapi.Parameter(
+                "first_name",
+                openapi.IN_QUERY,
+                description="جست‌وجو با نام",
+                type=openapi.TYPE_STRING,
+            ),
+            openapi.Parameter(
+                "last_name",
+                openapi.IN_QUERY,
+                description="جست‌وجو با نام خانوادگی",
+                type=openapi.TYPE_STRING,
+            ),
+        ],
+        responses={200: "لیست کاربران پیدا شده"},
+    )
     def get(self, request):
-        search_query = request.query_params.get("search", "")
-        users = UserProfile.objects.filter(
-            Q(phone_number__icontains=search_query)
-            | Q(first_name__icontains=search_query)
-            | Q(last_name__icontains=search_query)
-        )
+        phone_number = request.query_params.get("phone_number", "").strip()
+        first_name = request.query_params.get("first_name", "").strip()
+        last_name = request.query_params.get("last_name", "").strip()
+
+        filters = Q()
+
+        if phone_number:
+            filters &= Q(phone_number__icontains=phone_number)
+        if first_name:
+            filters &= Q(first_name__icontains=first_name)
+        if last_name:
+            filters &= Q(last_name__icontains=last_name)
+
+        users = UserProfile.objects.filter(filters).exclude(id=request.user.id)
+
         data = [
             {
                 "phone_number": user.phone_number,
@@ -59,10 +101,25 @@ class ChatUserListView(APIView):
             }
             for user in users
         ]
+
         return Response(data, status=status.HTTP_200_OK)
 
 
 class CreateChatView(APIView):
+    @swagger_auto_schema(
+        operation_summary="ایجاد چت جدید بین دو کاربر",
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            required=["user2_phone_number"],
+            properties={
+                "user2_phone_number": openapi.Schema(
+                    type=openapi.TYPE_STRING, description="شماره تلفن کاربر دوم"
+                ),
+            },
+            example={"user2_phone_number": "09121234567"},
+        ),
+        responses={201: "چت با موفقیت ساخته شد"},
+    )
     def post(self, request):
         user1 = request.user
         user2_phone_number = request.data.get("user2_phone_number")
@@ -80,32 +137,40 @@ class CreateChatView(APIView):
 
 
 class PreviousChatUsersView(APIView):
+    @swagger_auto_schema(
+        operation_summary="دریافت لیست کاربران چت‌شده قبلی",
+        responses={200: "لیست یکتا از کاربرانی که قبلاً با آن‌ها چت شده"},
+    )
     def get(self, request):
         user = request.user
         chats = ChatService.get_chats_for_user(user)
-        users = []
+        user_ids = set()
 
         for chat in chats:
-            participants = chat.participants.all()
-            for participant in participants:
-                if participant != user:
-                    users.append(
-                        {
-                            "phone_number": participant.phone_number,
-                            "first_name": participant.first_name,
-                            "last_name": participant.last_name,
-                            "profile_picture": (
-                                participant.profile_picture.url
-                                if participant.profile_picture
-                                else None
-                            ),
-                        }
-                    )
+            participants = chat.participants.exclude(id=user.id)
+            user_ids.update(participants.values_list("id", flat=True))
 
-        return Response(users, status=status.HTTP_200_OK)
+        # گرفتن اطلاعات کاربران یکتا
+        users = UserProfile.objects.filter(id__in=user_ids)
+
+        data = [
+            {
+                "phone_number": u.phone_number,
+                "first_name": u.first_name,
+                "last_name": u.last_name,
+                "profile_picture": u.profile_picture.url if u.profile_picture else None,
+            }
+            for u in users
+        ]
+
+        return Response(data, status=status.HTTP_200_OK)
 
 
 class ChatMessagesWithUserView(APIView):
+    @swagger_auto_schema(
+        operation_summary="دریافت پیام‌های یک چت بین دو کاربر",
+        responses={200: "پیام‌های چت", 404: "چت بین کاربران یافت نشد"},
+    )
     def get(self, request, phone_number):
         user1 = request.user
         user2 = get_object_or_404(UserProfile, phone_number=phone_number)

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fa">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>پیام‌رسان</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <style>
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+      
+      .card {
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      
+      .form-input {
+        outline: none;
+        border: 1px solid #ddd;
+        padding: 10px;
+        border-radius: 8px;
+      }
+      
+      .form-button {
+        background-color: #4caf50;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      
+      .form-button:hover {
+        background-color: #45a049;
+      }
+      
+      .button-secondary {
+        background-color: #007bff;
+        color: white;
+      }
+      
+      .button-secondary:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray-50">
+    <div class="flex items-center justify-center min-h-screen bg-gray-200">
+      <div class="w-full max-w-md bg-white p-8 rounded-lg shadow-lg card">
+        <h2 class="text-center text-3xl font-semibold mb-8 text-gray-800">ورود به پیام‌رسان</h2>
+
+        <!-- OTP Section -->
+        <div id="otp-section">
+          <div class="mb-4">
+            <label for="phone" class="block text-gray-700">شماره تلفن همراه</label>
+            <input type="text" id="phone" class="w-full form-input mt-2" placeholder="شماره تلفن خود را وارد کنید" />
+          </div>
+          <button id="get-otp" class="w-full form-button">دریافت کد OTP</button>
+        </div>
+
+        <!-- OTP Validation Section -->
+        <div id="otp-validation-section" class="hidden mb-4">
+          <div>
+            <label for="otp" class="block text-gray-700">کد OTP</label>
+            <input type="text" id="otp" class="w-full form-input mt-2" placeholder="کد OTP خود را وارد کنید" />
+          </div>
+          <button id="verify-otp" class="w-full form-button mt-4">تایید کد OTP</button>
+        </div>
+
+        <!-- Chat Section -->
+        <div id="chat-section" class="hidden">
+          <div class="mb-4">
+            <input type="text" id="search-user" class="w-full form-input mt-2" placeholder="جستجو کاربران..." />
+          </div>
+          <ul id="user-list" class="space-y-2 mb-4">
+            <!-- لیست کاربران اینجا نمایش داده می‌شود -->
+          </ul>
+          <button id="create-chat" class="w-full form-button button-secondary">ایجاد چت جدید</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const apiBaseUrl = 'http://localhost:8000' // آدرس API خود را وارد کنید
+      let jwtToken = ''
+      
+      document.getElementById('get-otp').addEventListener('click', async () => {
+        const phone = document.getElementById('phone').value
+        if (!phone) {
+          alert('لطفا شماره تلفن خود را وارد کنید')
+          return
+        }
+      
+        try {
+          const response = await axios.post(`${apiBaseUrl}/accounts/register-or-create-otp/`, { phone })
+          console.log('OTP sent:', response.data)
+          document.getElementById('otp-section').classList.add('hidden')
+          document.getElementById('otp-validation-section').classList.remove('hidden')
+        } catch (error) {
+          console.error('Error sending OTP:', error)
+          alert('خطا در ارسال کد OTP')
+        }
+      })
+      
+      document.getElementById('verify-otp').addEventListener('click', async () => {
+        const phone = document.getElementById('phone').value
+        const otp = document.getElementById('otp').value
+        if (!otp) {
+          alert('لطفا کد OTP را وارد کنید')
+          return
+        }
+      
+        try {
+          const response = await axios.post(`${apiBaseUrl}/accounts/verify-otp/`, { phone, otp })
+          jwtToken = response.data.token
+          localStorage.setItem('jwt', jwtToken)
+          console.log('JWT Token:', jwtToken)
+      
+          document.getElementById('otp-validation-section').classList.add('hidden')
+          document.getElementById('chat-section').classList.remove('hidden')
+      
+          loadUserList()
+        } catch (error) {
+          console.error('Error verifying OTP:', error)
+          alert('خطا در تایید کد OTP')
+        }
+      })
+      
+      async function loadUserList() {
+        try {
+          const response = await axios.get(`${apiBaseUrl}/accounts/users/`, {
+            headers: {
+              Authorization: `Bearer ${jwtToken}`
+            }
+          })
+          const userList = response.data
+          const userListElement = document.getElementById('user-list')
+          userListElement.innerHTML = ''
+      
+          userList.forEach((user) => {
+            const userItem = document.createElement('li')
+            userItem.classList.add('p-3', 'border', 'border-gray-200', 'rounded-lg', 'cursor-pointer', 'hover:bg-gray-100')
+            userItem.textContent = `${user.name} (${user.phone})`
+            userItem.addEventListener('click', () => createChat(user.id))
+            userListElement.appendChild(userItem)
+          })
+        } catch (error) {
+          console.error('Error loading user list:', error)
+          alert('خطا در بارگذاری کاربران')
+        }
+      }
+      
+      async function createChat(userId) {
+        try {
+          const response = await axios.post(
+            `${apiBaseUrl}/chats/create-chat/`,
+            { user_id: userId },
+            {
+              headers: {
+                Authorization: `Bearer ${jwtToken}`
+              }
+            }
+          )
+          alert('چت جدید با موفقیت ایجاد شد')
+          console.log('Chat created:', response.data)
+        } catch (error) {
+          console.error('Error creating chat:', error)
+          alert('خطا در ایجاد چت')
+        }
+      }
+    </script>
+  </body>
+</html>

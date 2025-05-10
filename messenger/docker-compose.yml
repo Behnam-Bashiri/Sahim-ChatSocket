@@ -15,7 +15,6 @@ services:
     networks:
       - backend
 
-
   web:
     build: .
     restart: always
@@ -28,6 +27,7 @@ services:
       - .env.local
     depends_on:
       - db
+      - redis
     networks:
       - backend
 
@@ -41,6 +41,14 @@ services:
       - "5050:80"
     volumes:
       - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - backend
+
+  redis:
+    image: redis:latest 
+    restart: always
+    ports:
+      - "6379:6379"
     networks:
       - backend
 

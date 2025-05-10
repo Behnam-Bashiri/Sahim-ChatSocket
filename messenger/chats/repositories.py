@@ -8,6 +8,16 @@ class ChatRepository:
     def create_chat(participants):
         chat = Chat.objects.create()
         chat.participants.set(participants)
+
+        if len(participants) == 2:
+            user1, user2 = participants
+
+            from_user = user1
+            to_user = user2 if user1 != from_user else user1
+
+            other_user = user2 if user1 == from_user else user1
+            chat.chat_name = f"{other_user.first_name} {other_user.last_name}".strip()
+
         chat.save()
         return chat
 
