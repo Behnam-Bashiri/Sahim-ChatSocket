@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     "drf_yasg",
     "corsheaders",
     # apps used in django dir
-    "accounts",
+    "accounts.apps.AccountsConfig",
     "chats",
     "channels",
 ]
@@ -123,7 +123,21 @@ CHANNEL_LAYERS = {
     },
 }
 
-CELERY_BROKER_URL = "redis://redis:6379/0"
+CELERY_BROKER_URL = "amqp://guest:guest@rabbitmq:5672/"  # آدرس RabbitMQ
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
+
+CELERY_TASK_DEFAULT_QUEUE = "default"
+CELERY_TASK_QUEUES = {
+    "default": {
+        "exchange": "default",
+        "routing_key": "default",
+    },
+    "image-processing": {
+        "exchange": "image-processing",
+        "routing_key": "image-processing",
+    },
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -188,5 +202,9 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
+
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
