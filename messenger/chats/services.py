@@ -1,34 +1,25 @@
+# chat/services.py
 from .repositories import ChatRepository, MessageRepository
-from .models import Chat, Message
 from accounts.models import UserProfile
 
 
 class ChatService:
     @staticmethod
-    def create_chat(user, participant_id):
-        participant = UserProfile.objects.get(id=participant_id)
-        participants = [user, participant]
-        chat = ChatRepository.create_chat(participants)
-        return chat
+    def create_chat_between_users(user1, user2):
+        participants = [user1, user2]
+        return ChatRepository.create_chat(participants)
 
     @staticmethod
-    def get_user_chats(user):
-        chats = ChatRepository.get_chats_for_user(user)
-        return chats
+    def get_chats_for_user(user):
+        return ChatRepository.get_chats_for_user(user)
 
     @staticmethod
-    def get_messages_for_chat(chat_id):
-        chat = ChatRepository.get_chat_by_id(chat_id)
-        if not chat:
-            raise ValueError("Chat not found")
+    def get_messages_for_chat(chat):
         return MessageRepository.get_messages_for_chat(chat)
 
-
-class MessageService:
     @staticmethod
-    def send_message(chat_id, sender, content, media=None):
-        chat = ChatRepository.get_chat_by_id(chat_id)
+    def get_or_create_chat_with_user(user, other_user):
+        chat = ChatRepository.get_chats_with_user(user, other_user)
         if not chat:
-            raise ValueError("Chat not found")
-        message = MessageRepository.create_message(chat, sender, content, media)
-        return message
+            chat = ChatService.create_chat_between_users(user, other_user)
+        return chat

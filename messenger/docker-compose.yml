@@ -21,6 +21,7 @@ services:
     restart: always
     volumes:
       - .:/app
+      - ./staticfiles:/app/staticfiles
     ports:
       - "8000:8000"
     env_file:

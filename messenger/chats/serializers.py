@@ -16,6 +16,7 @@ class ChatSerializer(serializers.ModelSerializer):
 class MessageSerializer(serializers.ModelSerializer):
     sender = serializers.PrimaryKeyRelatedField(queryset=UserProfile.objects.all())
     chat = serializers.PrimaryKeyRelatedField(queryset=Chat.objects.all())
+    media = serializers.FileField(source="file_message.file", required=False)
 
     class Meta:
         model = Message

@@ -29,3 +29,13 @@ class PhoneOTPRepository:
         otp = PhoneOTP(phone_number=phone_number, otp_code=otp_code)
         otp.save()
         return otp
+
+    @staticmethod
+    def delete_otp(phone_number, otp_code):
+        otp = PhoneOTP.objects.filter(
+            phone_number=phone_number, otp_code=otp_code
+        ).first()
+        if otp:
+            otp.delete()
+            return True
+        return False
