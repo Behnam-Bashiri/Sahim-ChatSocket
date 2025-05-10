@@ -1,5 +1,5 @@
 # chat/repositories.py
-from .models import Chat, Message
+from .models import Chat, Message, FileMessage
 from accounts.models import UserProfile
 
 
@@ -50,3 +50,10 @@ class MessageRepository:
     @staticmethod
     def get_messages_for_chat(chat):
         return Message.objects.filter(chat=chat)
+
+
+class FileRepository:
+    @staticmethod
+    def get_file_messege(chat, sender, fileIO):
+        file_message = FileMessage.objects.create(chat=chat, sender=sender, file=fileIO)
+        return file_message

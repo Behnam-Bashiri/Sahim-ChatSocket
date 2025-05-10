@@ -13,6 +13,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
 from .tasks import compress_chat_file
 from rest_framework import serializers
+from .repositories import FileRepository
 
 
 class ChatListView(generics.ListAPIView):
@@ -304,9 +305,7 @@ class FileUploadAPIView(APIView):
         if not file:
             return Response({"error": "No file provided"}, status=400)
 
-        file_message = FileMessage.objects.create(
-            chat=chat, sender=request.user, file=file
-        )
+        file_message = FileRepository.get_file_messege(chat, request.user, file)
 
         compress_chat_file.delay(file_message.id)
 
