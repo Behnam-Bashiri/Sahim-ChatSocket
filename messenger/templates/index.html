@@ -1,174 +1,82 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>پیام‌رسان</title>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-    <style>
-      body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      }
-      
-      .card {
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      }
-      
-      .form-input {
-        outline: none;
-        border: 1px solid #ddd;
-        padding: 10px;
-        border-radius: 8px;
-      }
-      
-      .form-button {
-        background-color: #4caf50;
-        color: white;
-        padding: 12px 24px;
-        border-radius: 8px;
-        font-size: 16px;
-        cursor: pointer;
-      }
-      
-      .form-button:hover {
-        background-color: #45a049;
-      }
-      
-      .button-secondary {
-        background-color: #007bff;
-        color: white;
-      }
-      
-      .button-secondary:hover {
-        background-color: #0056b3;
-      }
-    </style>
+    <title>WebSocket Chat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
+  <body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="w-full max-w-xl p-4 bg-white shadow-xl rounded-xl">
+      <h1 class="text-2xl font-bold mb-4 text-center">💬 WebSocket Chat</h1>
 
-  <body class="bg-gray-50">
-    <div class="flex items-center justify-center min-h-screen bg-gray-200">
-      <div class="w-full max-w-md bg-white p-8 rounded-lg shadow-lg card">
-        <h2 class="text-center text-3xl font-semibold mb-8 text-gray-800">ورود به پیام‌رسان</h2>
+      <!-- Chat Messages -->
+      <div id="chatBox" class="h-64 overflow-y-auto p-3 border border-gray-200 rounded-lg bg-gray-50 mb-4 space-y-2">
+        <!-- Messages will appear here -->
+      </div>
 
-        <!-- OTP Section -->
-        <div id="otp-section">
-          <div class="mb-4">
-            <label for="phone" class="block text-gray-700">شماره تلفن همراه</label>
-            <input type="text" id="phone" class="w-full form-input mt-2" placeholder="شماره تلفن خود را وارد کنید" />
-          </div>
-          <button id="get-otp" class="w-full form-button">دریافت کد OTP</button>
-        </div>
+      <!-- Message Input -->
+      <div class="flex gap-2">
+        <input type="text" id="messageInput" class="flex-1 border border-gray-300 p-2 rounded-lg" placeholder="پیام خود را بنویسید..." />
+        <button id="sendBtn" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">ارسال</button>
+      </div>
 
-        <!-- OTP Validation Section -->
-        <div id="otp-validation-section" class="hidden mb-4">
-          <div>
-            <label for="otp" class="block text-gray-700">کد OTP</label>
-            <input type="text" id="otp" class="w-full form-input mt-2" placeholder="کد OTP خود را وارد کنید" />
-          </div>
-          <button id="verify-otp" class="w-full form-button mt-4">تایید کد OTP</button>
-        </div>
-
-        <!-- Chat Section -->
-        <div id="chat-section" class="hidden">
-          <div class="mb-4">
-            <input type="text" id="search-user" class="w-full form-input mt-2" placeholder="جستجو کاربران..." />
-          </div>
-          <ul id="user-list" class="space-y-2 mb-4">
-            <!-- لیست کاربران اینجا نمایش داده می‌شود -->
-          </ul>
-          <button id="create-chat" class="w-full form-button button-secondary">ایجاد چت جدید</button>
-        </div>
+      <!-- JWT & Chat ID Input -->
+      <div class="mt-6 space-y-2">
+        <input type="text" id="jwtToken" placeholder="🔑 JWT Token" class="w-full border border-gray-300 p-2 rounded-lg" />
+        <input type="number" id="chatId" placeholder="💬 Chat ID" class="w-full border border-gray-300 p-2 rounded-lg" />
+        <button id="connectBtn" class="w-full mt-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">اتصال به چت</button>
       </div>
     </div>
 
     <script>
-      const apiBaseUrl = 'http://localhost:8000' // آدرس API خود را وارد کنید
-      let jwtToken = ''
+      let socket = null
       
-      document.getElementById('get-otp').addEventListener('click', async () => {
-        const phone = document.getElementById('phone').value
-        if (!phone) {
-          alert('لطفا شماره تلفن خود را وارد کنید')
+      const chatBox = document.getElementById('chatBox')
+      const messageInput = document.getElementById('messageInput')
+      const sendBtn = document.getElementById('sendBtn')
+      const jwtInput = document.getElementById('jwtToken')
+      const chatIdInput = document.getElementById('chatId')
+      const connectBtn = document.getElementById('connectBtn')
+      
+      connectBtn.onclick = () => {
+        const token = jwtInput.value.trim()
+        const chatId = chatIdInput.value.trim()
+        if (!token || !chatId) {
+          alert('لطفاً JWT Token و Chat ID را وارد کنید')
           return
         }
       
-        try {
-          const response = await axios.post(`${apiBaseUrl}/accounts/register-or-create-otp/`, { phone })
-          console.log('OTP sent:', response.data)
-          document.getElementById('otp-section').classList.add('hidden')
-          document.getElementById('otp-validation-section').classList.remove('hidden')
-        } catch (error) {
-          console.error('Error sending OTP:', error)
-          alert('خطا در ارسال کد OTP')
-        }
-      })
+        const wsUrl = `ws://localhost:8000/ws/chat/${chatId}/?token=${token}`
+        socket = new WebSocket(wsUrl)
       
-      document.getElementById('verify-otp').addEventListener('click', async () => {
-        const phone = document.getElementById('phone').value
-        const otp = document.getElementById('otp').value
-        if (!otp) {
-          alert('لطفا کد OTP را وارد کنید')
-          return
+        socket.onopen = () => {
+          alert('✅ اتصال برقرار شد')
         }
       
-        try {
-          const response = await axios.post(`${apiBaseUrl}/accounts/verify-otp/`, { phone, otp })
-          jwtToken = response.data.token
-          localStorage.setItem('jwt', jwtToken)
-          console.log('JWT Token:', jwtToken)
-      
-          document.getElementById('otp-validation-section').classList.add('hidden')
-          document.getElementById('chat-section').classList.remove('hidden')
-      
-          loadUserList()
-        } catch (error) {
-          console.error('Error verifying OTP:', error)
-          alert('خطا در تایید کد OTP')
+        socket.onmessage = (e) => {
+          const data = JSON.parse(e.data)
+          const div = document.createElement('div')
+          div.className = 'p-2 rounded-md bg-white shadow border text-sm'
+          div.innerHTML = `<strong>${data.sender}:</strong> ${data.message} <span class="text-gray-400 text-xs block">${data.timestamp}</span>`
+          chatBox.appendChild(div)
+          chatBox.scrollTop = chatBox.scrollHeight
         }
-      })
       
-      async function loadUserList() {
-        try {
-          const response = await axios.get(`${apiBaseUrl}/accounts/users/`, {
-            headers: {
-              Authorization: `Bearer ${jwtToken}`
-            }
-          })
-          const userList = response.data
-          const userListElement = document.getElementById('user-list')
-          userListElement.innerHTML = ''
+        socket.onclose = () => {
+          alert('❌ اتصال قطع شد')
+        }
       
-          userList.forEach((user) => {
-            const userItem = document.createElement('li')
-            userItem.classList.add('p-3', 'border', 'border-gray-200', 'rounded-lg', 'cursor-pointer', 'hover:bg-gray-100')
-            userItem.textContent = `${user.name} (${user.phone})`
-            userItem.addEventListener('click', () => createChat(user.id))
-            userListElement.appendChild(userItem)
-          })
-        } catch (error) {
-          console.error('Error loading user list:', error)
-          alert('خطا در بارگذاری کاربران')
+        socket.onerror = (e) => {
+          console.error('WebSocket Error', e)
         }
       }
       
-      async function createChat(userId) {
-        try {
-          const response = await axios.post(
-            `${apiBaseUrl}/chats/create-chat/`,
-            { user_id: userId },
-            {
-              headers: {
-                Authorization: `Bearer ${jwtToken}`
-              }
-            }
-          )
-          alert('چت جدید با موفقیت ایجاد شد')
-          console.log('Chat created:', response.data)
-        } catch (error) {
-          console.error('Error creating chat:', error)
-          alert('خطا در ایجاد چت')
+      sendBtn.onclick = () => {
+        const msg = messageInput.value.trim()
+        if (msg && socket && socket.readyState === WebSocket.OPEN) {
+          socket.send(JSON.stringify({ message: msg }))
+          messageInput.value = ''
         }
       }
     </script>
