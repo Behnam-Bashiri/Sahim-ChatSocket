@@ -20364,3 +20364,1384 @@ Start from server, version: 0.9, properties: {'capabilities': {'publisher_confir
 using channel_id: 1
 Channel open
 (0.000) SELECT "accounts_userprofile"."id", "accounts_userprofile"."password", "accounts_userprofile"."is_superuser", "accounts_userprofile"."phone_number", "accounts_userprofile"."first_name", "accounts_userprofile"."last_name", "accounts_userprofile"."profile_picture", "accounts_userprofile"."is_active", "accounts_userprofile"."is_staff", "accounts_userprofile"."email_verified", "accounts_userprofile"."last_login", "accounts_userprofile"."phone_number_verified" FROM "accounts_userprofile" WHERE "accounts_userprofile"."id" = 4 LIMIT 21; args=(4,); alias=default
+Signal handler <bound method DjangoFixup.on_import_modules of <celery.fixups.django.DjangoFixup object at 0xffffa0563c90>> raised: ImportError("cannot import name 'compress_chat_file' from 'chats.tasks' (/app/chats/tasks.py)")
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/celery/utils/dispatch/signal.py", line 280, in send
+    response = receiver(signal=self, sender=sender, **named)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/celery/fixups/django.py", line 101, in on_import_modules
+    self.worker_fixup.validate_models()
+  File "/usr/local/lib/python3.11/site-packages/celery/fixups/django.py", line 141, in validate_models
+    run_checks()
+  File "/usr/local/lib/python3.11/site-packages/django/core/checks/registry.py", line 89, in run_checks
+    new_errors = check(app_configs=app_configs, databases=databases)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/core/checks/urls.py", line 44, in check_url_namespaces_unique
+    all_namespaces = _load_all_namespaces(resolver)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/core/checks/urls.py", line 63, in _load_all_namespaces
+    url_patterns = getattr(resolver, "url_patterns", [])
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/urls/resolvers.py", line 718, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+                       ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/urls/resolvers.py", line 711, in urlconf_module
+    return import_module(self.urlconf_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/app/messenger/urls.py", line 25, in <module>
+    path("chats/", include("chats.urls")),
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/urls/conf.py", line 39, in include
+    urlconf_module = import_module(urlconf_module)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/app/chats/urls.py", line 2, in <module>
+    from .views import *
+  File "/app/chats/views.py", line 17, in <module>
+    from .tasks import compress_chat_file
+ImportError: cannot import name 'compress_chat_file' from 'chats.tasks' (/app/chats/tasks.py)
+Signal handler <bound method DjangoFixup.on_import_modules of <celery.fixups.django.DjangoFixup object at 0xffffab9c3450>> raised: ImportError("cannot import name 'compress_chat_image' from 'chats.tasks' (/app/chats/tasks.py)")
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/celery/utils/dispatch/signal.py", line 280, in send
+    response = receiver(signal=self, sender=sender, **named)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/celery/fixups/django.py", line 101, in on_import_modules
+    self.worker_fixup.validate_models()
+  File "/usr/local/lib/python3.11/site-packages/celery/fixups/django.py", line 139, in validate_models
+    self.django_setup()
+  File "/usr/local/lib/python3.11/site-packages/celery/fixups/django.py", line 135, in django_setup
+    django.setup()
+  File "/usr/local/lib/python3.11/site-packages/django/__init__.py", line 24, in setup
+    apps.populate(settings.INSTALLED_APPS)
+  File "/usr/local/lib/python3.11/site-packages/django/apps/registry.py", line 124, in populate
+    app_config.ready()
+  File "/app/chats/apps.py", line 9, in ready
+    import chats.signals
+  File "/app/chats/signals.py", line 4, in <module>
+    from .tasks import compress_chat_image
+ImportError: cannot import name 'compress_chat_image' from 'chats.tasks' (/app/chats/tasks.py)
+(0.005) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.005) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.005) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.005) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.001) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+(0.001) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+(0.000) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+(0.000) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+(0.002) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.002) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.000) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+(0.000) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+(0.001) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.001) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.000) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+(0.000) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+(0.000) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.000) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.001) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.000) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+(0.000) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+(0.001) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.000) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+(0.000) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+(0.008) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'admin'; args=('admin',); alias=default
+(0.008) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'admin'; args=('admin',); alias=default
+(0.035) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.035) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.000) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+(0.000) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'admin' AND "django_content_type"."model" IN ('logentry')); args=('admin', 'logentry'); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'admin' AND "django_content_type"."model" IN ('logentry')); args=('admin', 'logentry'); alias=default
+(0.001) SELECT "auth_permission"."content_type_id" AS "content_type", "auth_permission"."codename" AS "codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (1) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, 2 ASC; args=(1,); alias=default
+(0.001) SELECT "auth_permission"."content_type_id" AS "content_type", "auth_permission"."codename" AS "codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (1) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, 2 ASC; args=(1,); alias=default
+(0.001) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'admin'; args=('admin',); alias=default
+(0.001) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'admin'; args=('admin',); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'auth'; args=('auth',); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'auth'; args=('auth',); alias=default
+(0.001) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'auth' AND "django_content_type"."model" IN ('permission', 'group')); args=('auth', 'permission', 'group'); alias=default
+(0.001) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'auth' AND "django_content_type"."model" IN ('permission', 'group')); args=('auth', 'permission', 'group'); alias=default
+(0.001) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.001) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.000) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+(0.000) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+(0.000) SELECT "auth_permission"."content_type_id" AS "content_type", "auth_permission"."codename" AS "codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (2, 3) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, 2 ASC; args=(2, 3); alias=default
+(0.000) SELECT "auth_permission"."content_type_id" AS "content_type", "auth_permission"."codename" AS "codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (2, 3) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, 2 ASC; args=(2, 3); alias=default
+(0.001) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'admin'; args=('admin',); alias=default
+(0.001) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'admin'; args=('admin',); alias=default
+(0.001) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'auth'; args=('auth',); alias=default
+(0.001) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'auth'; args=('auth',); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'admin' AND "django_content_type"."model" IN ('logentry')); args=('admin', 'logentry'); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'admin' AND "django_content_type"."model" IN ('logentry')); args=('admin', 'logentry'); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'contenttypes'; args=('contenttypes',); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'contenttypes'; args=('contenttypes',); alias=default
+(0.001) SELECT "auth_permission"."content_type_id" AS "content_type", "auth_permission"."codename" AS "codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (1) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, 2 ASC; args=(1,); alias=default
+(0.001) SELECT "auth_permission"."content_type_id" AS "content_type", "auth_permission"."codename" AS "codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (1) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, 2 ASC; args=(1,); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'contenttypes' AND "django_content_type"."model" IN ('contenttype')); args=('contenttypes', 'contenttype'); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'contenttypes' AND "django_content_type"."model" IN ('contenttype')); args=('contenttypes', 'contenttype'); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'admin'; args=('admin',); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'admin'; args=('admin',); alias=default
+(0.000) SELECT "auth_permission"."content_type_id" AS "content_type", "auth_permission"."codename" AS "codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (4) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, 2 ASC; args=(4,); alias=default
+(0.000) SELECT "auth_permission"."content_type_id" AS "content_type", "auth_permission"."codename" AS "codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (4) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, 2 ASC; args=(4,); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'auth'; args=('auth',); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'auth'; args=('auth',); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'contenttypes'; args=('contenttypes',); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'contenttypes'; args=('contenttypes',); alias=default
+(0.001) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'auth' AND "django_content_type"."model" IN ('permission', 'group')); args=('auth', 'permission', 'group'); alias=default
+(0.001) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'auth' AND "django_content_type"."model" IN ('permission', 'group')); args=('auth', 'permission', 'group'); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'sessions'; args=('sessions',); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'sessions'; args=('sessions',); alias=default
+(0.000) SELECT "auth_permission"."content_type_id" AS "content_type", "auth_permission"."codename" AS "codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (2, 3) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, 2 ASC; args=(2, 3); alias=default
+(0.000) SELECT "auth_permission"."content_type_id" AS "content_type", "auth_permission"."codename" AS "codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (2, 3) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, 2 ASC; args=(2, 3); alias=default
+(0.001) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'sessions' AND "django_content_type"."model" IN ('session')); args=('sessions', 'session'); alias=default
+(0.001) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'sessions' AND "django_content_type"."model" IN ('session')); args=('sessions', 'session'); alias=default
+(0.001) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'auth'; args=('auth',); alias=default
+(0.001) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'auth'; args=('auth',); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'contenttypes'; args=('contenttypes',); alias=default
+(0.000) SELECT "auth_permission"."content_type_id" AS "content_type", "auth_permission"."codename" AS "codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (5) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, 2 ASC; args=(5,); alias=default
+(0.000) SELECT "auth_permission"."content_type_id" AS "content_type", "auth_permission"."codename" AS "codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (5) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, 2 ASC; args=(5,); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'contenttypes'; args=('contenttypes',); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'sessions'; args=('sessions',); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'sessions'; args=('sessions',); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'contenttypes' AND "django_content_type"."model" IN ('contenttype')); args=('contenttypes', 'contenttype'); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'contenttypes' AND "django_content_type"."model" IN ('contenttype')); args=('contenttypes', 'contenttype'); alias=default
+(0.001) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'accounts'; args=('accounts',); alias=default
+(0.001) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'accounts'; args=('accounts',); alias=default
+(0.001) SELECT "auth_permission"."content_type_id" AS "content_type", "auth_permission"."codename" AS "codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (4) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, 2 ASC; args=(4,); alias=default
+(0.001) SELECT "auth_permission"."content_type_id" AS "content_type", "auth_permission"."codename" AS "codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (4) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, 2 ASC; args=(4,); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'accounts' AND "django_content_type"."model" IN ('userprofile', 'phoneotp')); args=('accounts', 'userprofile', 'phoneotp'); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'accounts' AND "django_content_type"."model" IN ('userprofile', 'phoneotp')); args=('accounts', 'userprofile', 'phoneotp'); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'contenttypes'; args=('contenttypes',); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'contenttypes'; args=('contenttypes',); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'sessions'; args=('sessions',); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'sessions'; args=('sessions',); alias=default
+(0.000) SELECT "auth_permission"."content_type_id" AS "content_type", "auth_permission"."codename" AS "codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (6, 7) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, 2 ASC; args=(6, 7); alias=default
+(0.000) SELECT "auth_permission"."content_type_id" AS "content_type", "auth_permission"."codename" AS "codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (6, 7) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, 2 ASC; args=(6, 7); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'sessions' AND "django_content_type"."model" IN ('session')); args=('sessions', 'session'); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'sessions' AND "django_content_type"."model" IN ('session')); args=('sessions', 'session'); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'accounts'; args=('accounts',); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'accounts'; args=('accounts',); alias=default
+(0.001) SELECT "auth_permission"."content_type_id" AS "content_type", "auth_permission"."codename" AS "codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (5) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, 2 ASC; args=(5,); alias=default
+(0.001) SELECT "auth_permission"."content_type_id" AS "content_type", "auth_permission"."codename" AS "codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (5) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, 2 ASC; args=(5,); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'sessions'; args=('sessions',); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'sessions'; args=('sessions',); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'chats'; args=('chats',); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'chats'; args=('chats',); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'accounts'; args=('accounts',); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'accounts'; args=('accounts',); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'chats' AND "django_content_type"."model" IN ('message', 'chat', 'filemessage')); args=('chats', 'message', 'chat', 'filemessage'); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'chats' AND "django_content_type"."model" IN ('message', 'chat', 'filemessage')); args=('chats', 'message', 'chat', 'filemessage'); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'accounts' AND "django_content_type"."model" IN ('phoneotp', 'userprofile')); args=('accounts', 'phoneotp', 'userprofile'); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'accounts' AND "django_content_type"."model" IN ('phoneotp', 'userprofile')); args=('accounts', 'phoneotp', 'userprofile'); alias=default
+(0.001) SELECT "auth_permission"."content_type_id" AS "content_type", "auth_permission"."codename" AS "codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (8, 9, 10) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, 2 ASC; args=(8, 9, 10); alias=default
+(0.001) SELECT "auth_permission"."content_type_id" AS "content_type", "auth_permission"."codename" AS "codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (8, 9, 10) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, 2 ASC; args=(8, 9, 10); alias=default
+(0.000) SELECT "auth_permission"."content_type_id" AS "content_type", "auth_permission"."codename" AS "codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (6, 7) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, 2 ASC; args=(6, 7); alias=default
+(0.000) SELECT "auth_permission"."content_type_id" AS "content_type", "auth_permission"."codename" AS "codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (6, 7) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, 2 ASC; args=(6, 7); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'chats'; args=('chats',); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'chats'; args=('chats',); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'accounts'; args=('accounts',); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'accounts'; args=('accounts',); alias=default
+(0.001) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'chats'; args=('chats',); alias=default
+(0.001) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'chats'; args=('chats',); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'chats' AND "django_content_type"."model" IN ('message', 'filemessage', 'chat')); args=('chats', 'message', 'filemessage', 'chat'); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'chats' AND "django_content_type"."model" IN ('message', 'filemessage', 'chat')); args=('chats', 'message', 'filemessage', 'chat'); alias=default
+(0.001) SELECT "auth_permission"."content_type_id" AS "content_type", "auth_permission"."codename" AS "codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (8, 9, 10) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, 2 ASC; args=(8, 9, 10); alias=default
+(0.001) SELECT "auth_permission"."content_type_id" AS "content_type", "auth_permission"."codename" AS "codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (8, 9, 10) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, 2 ASC; args=(8, 9, 10); alias=default
+(0.001) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'chats'; args=('chats',); alias=default
+(0.001) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'chats'; args=('chats',); alias=default
+
+def group(self, tasks, result, group_id, partial_args, add_to_parent=0):
+    return 1
+
+
+def xmap(task, it):
+    return 1
+
+
+def backend_cleanup():
+    return 1
+
+
+def chain(*args, **kwargs):
+    return 1
+
+
+def xstarmap(task, it):
+    return 1
+
+
+def accumulate(self, *args, **kwargs):
+    return 1
+
+
+def compress_chat_file(file_message_id):
+    return 1
+
+
+def chord(self, header, body, partial_args=0, interval=1, countdown=2, max_retries=3, eager=4, **kwargs):
+    return 1
+
+
+def chunks(task, it, n):
+    return 1
+
+
+def unlock_chord(self, group_id, callback, interval=0, max_retries=1, result=2, Result=3, GroupResult=4, result_from_tuple=5, **kwargs):
+    return 1
+
+
+def compress_profile_image(user_id):
+    return 1
+
+Exception while resolving variable 'name' in template 'unknown'.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/usr/local/lib/python3.11/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/core/handlers/base.py", line 235, in _get_response_async
+    callback, callback_args, callback_kwargs = self.resolve_request(request)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/core/handlers/base.py", line 313, in resolve_request
+    resolver_match = resolver.resolve(request.path_info)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/urls/resolvers.py", line 705, in resolve
+    raise Resolver404({"tried": tried, "path": new_path})
+django.urls.exceptions.Resolver404: {'tried': [[<URLResolver <URLPattern list> (admin:admin) 'admin/'>], [<URLResolver <module 'accounts.urls' from '/app/accounts/urls.py'> (None:None) 'accounts/'>], [<URLResolver <module 'chats.urls' from '/app/chats/urls.py'> (None:None) 'chats/'>], [<URLPattern '^swagger(?P<format>\.json|\.yaml)$' [name='schema-json']>], [<URLPattern 'swagger/' [name='schema-swagger-ui']>], [<URLPattern 'redoc/' [name='schema-redoc']>], [<URLPattern '^static/(?P<path>.*)$'>], [<URLPattern '^media/(?P<path>.*)$'>]], 'path': 'api/chat/upload-file/4/'}
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 890, in _resolve_lookup
+    raise TypeError
+TypeError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 901, in _resolve_lookup
+    current = getattr(current, bit)
+              ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'URLResolver' object has no attribute 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [name] in <URLResolver <URLPattern list> (admin:admin) 'admin/'>
+Exception while resolving variable 'name' in template 'unknown'.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/usr/local/lib/python3.11/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/core/handlers/base.py", line 235, in _get_response_async
+    callback, callback_args, callback_kwargs = self.resolve_request(request)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/core/handlers/base.py", line 313, in resolve_request
+    resolver_match = resolver.resolve(request.path_info)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/urls/resolvers.py", line 705, in resolve
+    raise Resolver404({"tried": tried, "path": new_path})
+django.urls.exceptions.Resolver404: {'tried': [[<URLResolver <URLPattern list> (admin:admin) 'admin/'>], [<URLResolver <module 'accounts.urls' from '/app/accounts/urls.py'> (None:None) 'accounts/'>], [<URLResolver <module 'chats.urls' from '/app/chats/urls.py'> (None:None) 'chats/'>], [<URLPattern '^swagger(?P<format>\.json|\.yaml)$' [name='schema-json']>], [<URLPattern 'swagger/' [name='schema-swagger-ui']>], [<URLPattern 'redoc/' [name='schema-redoc']>], [<URLPattern '^static/(?P<path>.*)$'>], [<URLPattern '^media/(?P<path>.*)$'>]], 'path': 'api/chat/upload-file/4/'}
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 890, in _resolve_lookup
+    raise TypeError
+TypeError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 901, in _resolve_lookup
+    current = getattr(current, bit)
+              ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'URLResolver' object has no attribute 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [name] in <URLResolver <URLPattern list> (admin:admin) 'admin/'>
+Exception while resolving variable 'name' in template 'unknown'.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/usr/local/lib/python3.11/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/core/handlers/base.py", line 235, in _get_response_async
+    callback, callback_args, callback_kwargs = self.resolve_request(request)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/core/handlers/base.py", line 313, in resolve_request
+    resolver_match = resolver.resolve(request.path_info)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/urls/resolvers.py", line 705, in resolve
+    raise Resolver404({"tried": tried, "path": new_path})
+django.urls.exceptions.Resolver404: {'tried': [[<URLResolver <URLPattern list> (admin:admin) 'admin/'>], [<URLResolver <module 'accounts.urls' from '/app/accounts/urls.py'> (None:None) 'accounts/'>], [<URLResolver <module 'chats.urls' from '/app/chats/urls.py'> (None:None) 'chats/'>], [<URLPattern '^swagger(?P<format>\.json|\.yaml)$' [name='schema-json']>], [<URLPattern 'swagger/' [name='schema-swagger-ui']>], [<URLPattern 'redoc/' [name='schema-redoc']>], [<URLPattern '^static/(?P<path>.*)$'>], [<URLPattern '^media/(?P<path>.*)$'>]], 'path': 'api/chat/upload-file/4/'}
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 890, in _resolve_lookup
+    raise TypeError
+TypeError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 901, in _resolve_lookup
+    current = getattr(current, bit)
+              ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'URLResolver' object has no attribute 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [name] in <URLResolver <module 'accounts.urls' from '/app/accounts/urls.py'> (None:None) 'accounts/'>
+Exception while resolving variable 'name' in template 'unknown'.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/usr/local/lib/python3.11/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/core/handlers/base.py", line 235, in _get_response_async
+    callback, callback_args, callback_kwargs = self.resolve_request(request)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/core/handlers/base.py", line 313, in resolve_request
+    resolver_match = resolver.resolve(request.path_info)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/urls/resolvers.py", line 705, in resolve
+    raise Resolver404({"tried": tried, "path": new_path})
+django.urls.exceptions.Resolver404: {'tried': [[<URLResolver <URLPattern list> (admin:admin) 'admin/'>], [<URLResolver <module 'accounts.urls' from '/app/accounts/urls.py'> (None:None) 'accounts/'>], [<URLResolver <module 'chats.urls' from '/app/chats/urls.py'> (None:None) 'chats/'>], [<URLPattern '^swagger(?P<format>\.json|\.yaml)$' [name='schema-json']>], [<URLPattern 'swagger/' [name='schema-swagger-ui']>], [<URLPattern 'redoc/' [name='schema-redoc']>], [<URLPattern '^static/(?P<path>.*)$'>], [<URLPattern '^media/(?P<path>.*)$'>]], 'path': 'api/chat/upload-file/4/'}
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 890, in _resolve_lookup
+    raise TypeError
+TypeError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 901, in _resolve_lookup
+    current = getattr(current, bit)
+              ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'URLResolver' object has no attribute 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [name] in <URLResolver <module 'accounts.urls' from '/app/accounts/urls.py'> (None:None) 'accounts/'>
+Exception while resolving variable 'name' in template 'unknown'.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/usr/local/lib/python3.11/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/core/handlers/base.py", line 235, in _get_response_async
+    callback, callback_args, callback_kwargs = self.resolve_request(request)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/core/handlers/base.py", line 313, in resolve_request
+    resolver_match = resolver.resolve(request.path_info)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/urls/resolvers.py", line 705, in resolve
+    raise Resolver404({"tried": tried, "path": new_path})
+django.urls.exceptions.Resolver404: {'tried': [[<URLResolver <URLPattern list> (admin:admin) 'admin/'>], [<URLResolver <module 'accounts.urls' from '/app/accounts/urls.py'> (None:None) 'accounts/'>], [<URLResolver <module 'chats.urls' from '/app/chats/urls.py'> (None:None) 'chats/'>], [<URLPattern '^swagger(?P<format>\.json|\.yaml)$' [name='schema-json']>], [<URLPattern 'swagger/' [name='schema-swagger-ui']>], [<URLPattern 'redoc/' [name='schema-redoc']>], [<URLPattern '^static/(?P<path>.*)$'>], [<URLPattern '^media/(?P<path>.*)$'>]], 'path': 'api/chat/upload-file/4/'}
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 890, in _resolve_lookup
+    raise TypeError
+TypeError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 901, in _resolve_lookup
+    current = getattr(current, bit)
+              ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'URLResolver' object has no attribute 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [name] in <URLResolver <module 'chats.urls' from '/app/chats/urls.py'> (None:None) 'chats/'>
+Exception while resolving variable 'name' in template 'unknown'.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/usr/local/lib/python3.11/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/core/handlers/base.py", line 235, in _get_response_async
+    callback, callback_args, callback_kwargs = self.resolve_request(request)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/core/handlers/base.py", line 313, in resolve_request
+    resolver_match = resolver.resolve(request.path_info)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/urls/resolvers.py", line 705, in resolve
+    raise Resolver404({"tried": tried, "path": new_path})
+django.urls.exceptions.Resolver404: {'tried': [[<URLResolver <URLPattern list> (admin:admin) 'admin/'>], [<URLResolver <module 'accounts.urls' from '/app/accounts/urls.py'> (None:None) 'accounts/'>], [<URLResolver <module 'chats.urls' from '/app/chats/urls.py'> (None:None) 'chats/'>], [<URLPattern '^swagger(?P<format>\.json|\.yaml)$' [name='schema-json']>], [<URLPattern 'swagger/' [name='schema-swagger-ui']>], [<URLPattern 'redoc/' [name='schema-redoc']>], [<URLPattern '^static/(?P<path>.*)$'>], [<URLPattern '^media/(?P<path>.*)$'>]], 'path': 'api/chat/upload-file/4/'}
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 890, in _resolve_lookup
+    raise TypeError
+TypeError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 901, in _resolve_lookup
+    current = getattr(current, bit)
+              ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'URLResolver' object has no attribute 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [name] in <URLResolver <module 'chats.urls' from '/app/chats/urls.py'> (None:None) 'chats/'>
+Not Found: /api/chat/upload-file/4/
+Not Found: /api/chat/upload-file/4/
+Unauthorized: /chats/upload-file/4/
+Unauthorized: /chats/upload-file/4/
+(0.004) SELECT "accounts_userprofile"."id", "accounts_userprofile"."password", "accounts_userprofile"."is_superuser", "accounts_userprofile"."phone_number", "accounts_userprofile"."first_name", "accounts_userprofile"."last_name", "accounts_userprofile"."profile_picture", "accounts_userprofile"."is_active", "accounts_userprofile"."is_staff", "accounts_userprofile"."email_verified", "accounts_userprofile"."last_login", "accounts_userprofile"."phone_number_verified" FROM "accounts_userprofile" WHERE "accounts_userprofile"."id" = 4 LIMIT 21; args=(4,); alias=default
+(0.004) SELECT "accounts_userprofile"."id", "accounts_userprofile"."password", "accounts_userprofile"."is_superuser", "accounts_userprofile"."phone_number", "accounts_userprofile"."first_name", "accounts_userprofile"."last_name", "accounts_userprofile"."profile_picture", "accounts_userprofile"."is_active", "accounts_userprofile"."is_staff", "accounts_userprofile"."email_verified", "accounts_userprofile"."last_login", "accounts_userprofile"."phone_number_verified" FROM "accounts_userprofile" WHERE "accounts_userprofile"."id" = 4 LIMIT 21; args=(4,); alias=default
+(0.003) SELECT "chats_chat"."id", "chats_chat"."created_at", "chats_chat"."chat_name", "chats_chat"."chat_type", "chats_chat"."last_message_id" FROM "chats_chat" WHERE "chats_chat"."id" = 4 LIMIT 21; args=(4,); alias=default
+(0.003) SELECT "chats_chat"."id", "chats_chat"."created_at", "chats_chat"."chat_name", "chats_chat"."chat_type", "chats_chat"."last_message_id" FROM "chats_chat" WHERE "chats_chat"."id" = 4 LIMIT 21; args=(4,); alias=default
+(0.003) SELECT "accounts_userprofile"."id", "accounts_userprofile"."password", "accounts_userprofile"."is_superuser", "accounts_userprofile"."phone_number", "accounts_userprofile"."first_name", "accounts_userprofile"."last_name", "accounts_userprofile"."profile_picture", "accounts_userprofile"."is_active", "accounts_userprofile"."is_staff", "accounts_userprofile"."email_verified", "accounts_userprofile"."last_login", "accounts_userprofile"."phone_number_verified" FROM "accounts_userprofile" INNER JOIN "chats_chat_participants" ON ("accounts_userprofile"."id" = "chats_chat_participants"."userprofile_id") WHERE "chats_chat_participants"."chat_id" = 4; args=(4,); alias=default
+(0.003) SELECT "accounts_userprofile"."id", "accounts_userprofile"."password", "accounts_userprofile"."is_superuser", "accounts_userprofile"."phone_number", "accounts_userprofile"."first_name", "accounts_userprofile"."last_name", "accounts_userprofile"."profile_picture", "accounts_userprofile"."is_active", "accounts_userprofile"."is_staff", "accounts_userprofile"."email_verified", "accounts_userprofile"."last_login", "accounts_userprofile"."phone_number_verified" FROM "accounts_userprofile" INNER JOIN "chats_chat_participants" ON ("accounts_userprofile"."id" = "chats_chat_participants"."userprofile_id") WHERE "chats_chat_participants"."chat_id" = 4; args=(4,); alias=default
+Forbidden: /chats/upload-file/4/
+Forbidden: /chats/upload-file/4/
+(0.002) SELECT "accounts_userprofile"."id", "accounts_userprofile"."password", "accounts_userprofile"."is_superuser", "accounts_userprofile"."phone_number", "accounts_userprofile"."first_name", "accounts_userprofile"."last_name", "accounts_userprofile"."profile_picture", "accounts_userprofile"."is_active", "accounts_userprofile"."is_staff", "accounts_userprofile"."email_verified", "accounts_userprofile"."last_login", "accounts_userprofile"."phone_number_verified" FROM "accounts_userprofile" WHERE "accounts_userprofile"."id" = 3 LIMIT 21; args=(3,); alias=default
+(0.002) SELECT "accounts_userprofile"."id", "accounts_userprofile"."password", "accounts_userprofile"."is_superuser", "accounts_userprofile"."phone_number", "accounts_userprofile"."first_name", "accounts_userprofile"."last_name", "accounts_userprofile"."profile_picture", "accounts_userprofile"."is_active", "accounts_userprofile"."is_staff", "accounts_userprofile"."email_verified", "accounts_userprofile"."last_login", "accounts_userprofile"."phone_number_verified" FROM "accounts_userprofile" WHERE "accounts_userprofile"."id" = 3 LIMIT 21; args=(3,); alias=default
+(0.001) SELECT "chats_chat"."id", "chats_chat"."created_at", "chats_chat"."chat_name", "chats_chat"."chat_type", "chats_chat"."last_message_id" FROM "chats_chat" WHERE "chats_chat"."id" = 4 LIMIT 21; args=(4,); alias=default
+(0.001) SELECT "chats_chat"."id", "chats_chat"."created_at", "chats_chat"."chat_name", "chats_chat"."chat_type", "chats_chat"."last_message_id" FROM "chats_chat" WHERE "chats_chat"."id" = 4 LIMIT 21; args=(4,); alias=default
+(0.001) SELECT "accounts_userprofile"."id", "accounts_userprofile"."password", "accounts_userprofile"."is_superuser", "accounts_userprofile"."phone_number", "accounts_userprofile"."first_name", "accounts_userprofile"."last_name", "accounts_userprofile"."profile_picture", "accounts_userprofile"."is_active", "accounts_userprofile"."is_staff", "accounts_userprofile"."email_verified", "accounts_userprofile"."last_login", "accounts_userprofile"."phone_number_verified" FROM "accounts_userprofile" INNER JOIN "chats_chat_participants" ON ("accounts_userprofile"."id" = "chats_chat_participants"."userprofile_id") WHERE "chats_chat_participants"."chat_id" = 4; args=(4,); alias=default
+(0.001) SELECT "accounts_userprofile"."id", "accounts_userprofile"."password", "accounts_userprofile"."is_superuser", "accounts_userprofile"."phone_number", "accounts_userprofile"."first_name", "accounts_userprofile"."last_name", "accounts_userprofile"."profile_picture", "accounts_userprofile"."is_active", "accounts_userprofile"."is_staff", "accounts_userprofile"."email_verified", "accounts_userprofile"."last_login", "accounts_userprofile"."phone_number_verified" FROM "accounts_userprofile" INNER JOIN "chats_chat_participants" ON ("accounts_userprofile"."id" = "chats_chat_participants"."userprofile_id") WHERE "chats_chat_participants"."chat_id" = 4; args=(4,); alias=default
+(0.007) INSERT INTO "chats_filemessage" ("chat_id", "sender_id", "file", "timestamp") VALUES (4, 3, 'chat_files/06_NMTN.EVL.pdf', '2025-05-10T22:29:23.321449+00:00'::timestamptz) RETURNING "chats_filemessage"."id"; args=(4, 3, 'chat_files/06_NMTN.EVL.pdf', datetime.datetime(2025, 5, 10, 22, 29, 23, 321449, tzinfo=datetime.timezone.utc)); alias=default
+(0.007) INSERT INTO "chats_filemessage" ("chat_id", "sender_id", "file", "timestamp") VALUES (4, 3, 'chat_files/06_NMTN.EVL.pdf', '2025-05-10T22:29:23.321449+00:00'::timestamptz) RETURNING "chats_filemessage"."id"; args=(4, 3, 'chat_files/06_NMTN.EVL.pdf', datetime.datetime(2025, 5, 10, 22, 29, 23, 321449, tzinfo=datetime.timezone.utc)); alias=default
+
+def chord(self, header, body, partial_args=0, interval=1, countdown=2, max_retries=3, eager=4, **kwargs):
+    return 1
+
+
+def compress_chat_file(file_message_id):
+    return 1
+
+
+def chunks(task, it, n):
+    return 1
+
+
+def unlock_chord(self, group_id, callback, interval=0, max_retries=1, result=2, Result=3, GroupResult=4, result_from_tuple=5, **kwargs):
+    return 1
+
+
+def group(self, tasks, result, group_id, partial_args, add_to_parent=0):
+    return 1
+
+
+def xmap(task, it):
+    return 1
+
+
+def compress_profile_image(user_id):
+    return 1
+
+
+def backend_cleanup():
+    return 1
+
+
+def chain(*args, **kwargs):
+    return 1
+
+
+def xstarmap(task, it):
+    return 1
+
+
+def accumulate(self, *args, **kwargs):
+    return 1
+
+Start from server, version: 0.9, properties: {'capabilities': {'publisher_confirms': True, 'exchange_exchange_bindings': True, 'basic.nack': True, 'consumer_cancel_notify': True, 'connection.blocked': True, 'consumer_priorities': True, 'authentication_failure_close': True, 'per_consumer_qos': True, 'direct_reply_to': True}, 'cluster_name': 'rabbit@2f0b92ca3bf7', 'copyright': 'Copyright (c) 2007-2024 Broadcom Inc and/or its subsidiaries', 'information': 'Licensed under the MPL 2.0. Website: https://rabbitmq.com', 'platform': 'Erlang/OTP 26.2.5.12', 'product': 'RabbitMQ', 'version': '3.13.7'}, mechanisms: [b'AMQPLAIN', b'PLAIN'], locales: ['en_US']
+using channel_id: 1
+Channel open
+(0.003) SELECT "chats_filemessage"."id", "chats_filemessage"."chat_id", "chats_filemessage"."sender_id", "chats_filemessage"."file", "chats_filemessage"."timestamp" FROM "chats_filemessage" WHERE "chats_filemessage"."id" = 2 LIMIT 21; args=(2,); alias=default
+(0.005) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2025-05-10T22:29:39.285976+00:00'::timestamptz AND "django_session"."session_key" = 'j7nn3e5snozm9gwujtqxtaxblvxnhe41') LIMIT 21; args=(datetime.datetime(2025, 5, 10, 22, 29, 39, 285976, tzinfo=datetime.timezone.utc), 'j7nn3e5snozm9gwujtqxtaxblvxnhe41'); alias=default
+(0.005) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2025-05-10T22:29:39.285976+00:00'::timestamptz AND "django_session"."session_key" = 'j7nn3e5snozm9gwujtqxtaxblvxnhe41') LIMIT 21; args=(datetime.datetime(2025, 5, 10, 22, 29, 39, 285976, tzinfo=datetime.timezone.utc), 'j7nn3e5snozm9gwujtqxtaxblvxnhe41'); alias=default
+(0.001) SELECT "accounts_userprofile"."id", "accounts_userprofile"."password", "accounts_userprofile"."is_superuser", "accounts_userprofile"."phone_number", "accounts_userprofile"."first_name", "accounts_userprofile"."last_name", "accounts_userprofile"."profile_picture", "accounts_userprofile"."is_active", "accounts_userprofile"."is_staff", "accounts_userprofile"."email_verified", "accounts_userprofile"."last_login", "accounts_userprofile"."phone_number_verified" FROM "accounts_userprofile" WHERE "accounts_userprofile"."id" = 1 LIMIT 21; args=(1,); alias=default
+(0.001) SELECT "accounts_userprofile"."id", "accounts_userprofile"."password", "accounts_userprofile"."is_superuser", "accounts_userprofile"."phone_number", "accounts_userprofile"."first_name", "accounts_userprofile"."last_name", "accounts_userprofile"."profile_picture", "accounts_userprofile"."is_active", "accounts_userprofile"."is_staff", "accounts_userprofile"."email_verified", "accounts_userprofile"."last_login", "accounts_userprofile"."phone_number_verified" FROM "accounts_userprofile" WHERE "accounts_userprofile"."id" = 1 LIMIT 21; args=(1,); alias=default
+(0.000) SELECT "accounts_userprofile"."id", "accounts_userprofile"."password", "accounts_userprofile"."is_superuser", "accounts_userprofile"."phone_number", "accounts_userprofile"."first_name", "accounts_userprofile"."last_name", "accounts_userprofile"."profile_picture", "accounts_userprofile"."is_active", "accounts_userprofile"."is_staff", "accounts_userprofile"."email_verified", "accounts_userprofile"."last_login", "accounts_userprofile"."phone_number_verified" FROM "accounts_userprofile" WHERE "accounts_userprofile"."id" = 4 LIMIT 21; args=(4,); alias=default
+(0.000) SELECT "accounts_userprofile"."id", "accounts_userprofile"."password", "accounts_userprofile"."is_superuser", "accounts_userprofile"."phone_number", "accounts_userprofile"."first_name", "accounts_userprofile"."last_name", "accounts_userprofile"."profile_picture", "accounts_userprofile"."is_active", "accounts_userprofile"."is_staff", "accounts_userprofile"."email_verified", "accounts_userprofile"."last_login", "accounts_userprofile"."phone_number_verified" FROM "accounts_userprofile" WHERE "accounts_userprofile"."id" = 4 LIMIT 21; args=(4,); alias=default
+(0.005) SELECT "auth_group"."id", "auth_group"."name" FROM "auth_group" INNER JOIN "accounts_userprofile_groups" ON ("auth_group"."id" = "accounts_userprofile_groups"."group_id") WHERE "accounts_userprofile_groups"."userprofile_id" = 4; args=(4,); alias=default
+(0.005) SELECT "auth_group"."id", "auth_group"."name" FROM "auth_group" INNER JOIN "accounts_userprofile_groups" ON ("auth_group"."id" = "accounts_userprofile_groups"."group_id") WHERE "accounts_userprofile_groups"."userprofile_id" = 4; args=(4,); alias=default
+(0.003) SELECT "auth_permission"."id", "auth_permission"."name", "auth_permission"."content_type_id", "auth_permission"."codename" FROM "auth_permission" INNER JOIN "accounts_userprofile_user_permissions" ON ("auth_permission"."id" = "accounts_userprofile_user_permissions"."permission_id") INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "accounts_userprofile_user_permissions"."userprofile_id" = 4 ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, "auth_permission"."codename" ASC; args=(4,); alias=default
+(0.003) SELECT "auth_permission"."id", "auth_permission"."name", "auth_permission"."content_type_id", "auth_permission"."codename" FROM "auth_permission" INNER JOIN "accounts_userprofile_user_permissions" ON ("auth_permission"."id" = "accounts_userprofile_user_permissions"."permission_id") INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "accounts_userprofile_user_permissions"."userprofile_id" = 4 ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, "auth_permission"."codename" ASC; args=(4,); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'accounts' AND "django_content_type"."model" = 'userprofile') LIMIT 21; args=('accounts', 'userprofile'); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'accounts' AND "django_content_type"."model" = 'userprofile') LIMIT 21; args=('accounts', 'userprofile'); alias=default
+Exception while resolving variable 'get_short_name' in template 'admin/change_form.html'.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/utils/functional.py", line 253, in inner
+    return func(_wrapped, *args)
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'UserProfile' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 901, in _resolve_lookup
+    current = getattr(current, bit)
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/utils/functional.py", line 253, in inner
+    return func(_wrapped, *args)
+           ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'UserProfile' object has no attribute 'get_short_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'get_short_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [get_short_name] in <SimpleLazyObject: <UserProfile: 09137246224>>
+Exception while resolving variable 'get_short_name' in template 'admin/change_form.html'.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/utils/functional.py", line 253, in inner
+    return func(_wrapped, *args)
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'UserProfile' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 901, in _resolve_lookup
+    current = getattr(current, bit)
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/utils/functional.py", line 253, in inner
+    return func(_wrapped, *args)
+           ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'UserProfile' object has no attribute 'get_short_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'get_short_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [get_short_name] in <SimpleLazyObject: <UserProfile: 09137246224>>
+Exception while resolving variable 'password_url' in template 'auth/widgets/read_only_password_hash.html'.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/template/context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'password_url'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ^^^^^^^^
+AttributeError: type object 'Context' has no attribute 'password_url'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'password_url'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [password_url] in [{'True': True, 'False': False, 'None': None}, {'widget': {'name': 'password', 'is_hidden': False, 'required': False, 'value': 'pbkdf2_sha256$1000000$lINSPGDAwXwj2a1EYGw36p$rANdaEiOX/aNtueRr+aTvoKnYGFHX1wijZwr2qCOnug=', 'attrs': {'disabled': True, 'aria-describedby': 'id_password_helptext', 'id': 'id_password'}, 'template_name': 'auth/widgets/read_only_password_hash.html'}, 'summary': [{'label': 'algorithm', 'value': 'pbkdf2_sha256'}, {'label': 'iterations', 'value': 1000000}, {'label': 'salt', 'value': 'lINSPG****************'}, {'label': 'hash', 'value': 'rANdaE**************************************'}], 'button_label': 'Reset password'}]
+Exception while resolving variable 'password_url' in template 'auth/widgets/read_only_password_hash.html'.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/template/context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'password_url'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ^^^^^^^^
+AttributeError: type object 'Context' has no attribute 'password_url'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'password_url'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [password_url] in [{'True': True, 'False': False, 'None': None}, {'widget': {'name': 'password', 'is_hidden': False, 'required': False, 'value': 'pbkdf2_sha256$1000000$lINSPGDAwXwj2a1EYGw36p$rANdaEiOX/aNtueRr+aTvoKnYGFHX1wijZwr2qCOnug=', 'attrs': {'disabled': True, 'aria-describedby': 'id_password_helptext', 'id': 'id_password'}, 'template_name': 'auth/widgets/read_only_password_hash.html'}, 'summary': [{'label': 'algorithm', 'value': 'pbkdf2_sha256'}, {'label': 'iterations', 'value': 1000000}, {'label': 'salt', 'value': 'lINSPG****************'}, {'label': 'hash', 'value': 'rANdaE**************************************'}], 'button_label': 'Reset password'}]
+(0.000) DECLARE "_django_curs_281472931918240_sync_1" NO SCROLL CURSOR WITH HOLD FOR SELECT "auth_group"."id", "auth_group"."name" FROM "auth_group" ORDER BY "auth_group"."name" ASC; args=(); alias=default
+(0.000) DECLARE "_django_curs_281472931918240_sync_1" NO SCROLL CURSOR WITH HOLD FOR SELECT "auth_group"."id", "auth_group"."name" FROM "auth_group" ORDER BY "auth_group"."name" ASC; args=(); alias=default
+(0.000) DECLARE "_django_curs_281472931918240_sync_2" NO SCROLL CURSOR WITH HOLD FOR SELECT "auth_permission"."id", "auth_permission"."name", "auth_permission"."content_type_id", "auth_permission"."codename", "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, "auth_permission"."codename" ASC; args=(); alias=default
+(0.000) DECLARE "_django_curs_281472931918240_sync_2" NO SCROLL CURSOR WITH HOLD FOR SELECT "auth_permission"."id", "auth_permission"."name", "auth_permission"."content_type_id", "auth_permission"."codename", "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, "auth_permission"."codename" ASC; args=(); alias=default
+(0.002) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2025-05-10T22:29:41.064531+00:00'::timestamptz AND "django_session"."session_key" = 'j7nn3e5snozm9gwujtqxtaxblvxnhe41') LIMIT 21; args=(datetime.datetime(2025, 5, 10, 22, 29, 41, 64531, tzinfo=datetime.timezone.utc), 'j7nn3e5snozm9gwujtqxtaxblvxnhe41'); alias=default
+(0.002) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2025-05-10T22:29:41.064531+00:00'::timestamptz AND "django_session"."session_key" = 'j7nn3e5snozm9gwujtqxtaxblvxnhe41') LIMIT 21; args=(datetime.datetime(2025, 5, 10, 22, 29, 41, 64531, tzinfo=datetime.timezone.utc), 'j7nn3e5snozm9gwujtqxtaxblvxnhe41'); alias=default
+(0.001) SELECT "accounts_userprofile"."id", "accounts_userprofile"."password", "accounts_userprofile"."is_superuser", "accounts_userprofile"."phone_number", "accounts_userprofile"."first_name", "accounts_userprofile"."last_name", "accounts_userprofile"."profile_picture", "accounts_userprofile"."is_active", "accounts_userprofile"."is_staff", "accounts_userprofile"."email_verified", "accounts_userprofile"."last_login", "accounts_userprofile"."phone_number_verified" FROM "accounts_userprofile" WHERE "accounts_userprofile"."id" = 1 LIMIT 21; args=(1,); alias=default
+(0.001) SELECT "accounts_userprofile"."id", "accounts_userprofile"."password", "accounts_userprofile"."is_superuser", "accounts_userprofile"."phone_number", "accounts_userprofile"."first_name", "accounts_userprofile"."last_name", "accounts_userprofile"."profile_picture", "accounts_userprofile"."is_active", "accounts_userprofile"."is_staff", "accounts_userprofile"."email_verified", "accounts_userprofile"."last_login", "accounts_userprofile"."phone_number_verified" FROM "accounts_userprofile" WHERE "accounts_userprofile"."id" = 1 LIMIT 21; args=(1,); alias=default
+(0.003) SELECT COUNT(*) AS "__count" FROM "chats_filemessage"; args=(); alias=default
+(0.003) SELECT COUNT(*) AS "__count" FROM "chats_filemessage"; args=(); alias=default
+(0.000) SELECT COUNT(*) AS "__count" FROM "chats_filemessage"; args=(); alias=default
+(0.000) SELECT COUNT(*) AS "__count" FROM "chats_filemessage"; args=(); alias=default
+(0.001) SELECT "chats_filemessage"."id", "chats_filemessage"."chat_id", "chats_filemessage"."sender_id", "chats_filemessage"."file", "chats_filemessage"."timestamp", "chats_chat"."id", "chats_chat"."created_at", "chats_chat"."chat_name", "chats_chat"."chat_type", "chats_chat"."last_message_id", "accounts_userprofile"."id", "accounts_userprofile"."password", "accounts_userprofile"."is_superuser", "accounts_userprofile"."phone_number", "accounts_userprofile"."first_name", "accounts_userprofile"."last_name", "accounts_userprofile"."profile_picture", "accounts_userprofile"."is_active", "accounts_userprofile"."is_staff", "accounts_userprofile"."email_verified", "accounts_userprofile"."last_login", "accounts_userprofile"."phone_number_verified" FROM "chats_filemessage" INNER JOIN "chats_chat" ON ("chats_filemessage"."chat_id" = "chats_chat"."id") INNER JOIN "accounts_userprofile" ON ("chats_filemessage"."sender_id" = "accounts_userprofile"."id") ORDER BY "chats_filemessage"."id" DESC; args=(); alias=default
+(0.001) SELECT "chats_filemessage"."id", "chats_filemessage"."chat_id", "chats_filemessage"."sender_id", "chats_filemessage"."file", "chats_filemessage"."timestamp", "chats_chat"."id", "chats_chat"."created_at", "chats_chat"."chat_name", "chats_chat"."chat_type", "chats_chat"."last_message_id", "accounts_userprofile"."id", "accounts_userprofile"."password", "accounts_userprofile"."is_superuser", "accounts_userprofile"."phone_number", "accounts_userprofile"."first_name", "accounts_userprofile"."last_name", "accounts_userprofile"."profile_picture", "accounts_userprofile"."is_active", "accounts_userprofile"."is_staff", "accounts_userprofile"."email_verified", "accounts_userprofile"."last_login", "accounts_userprofile"."phone_number_verified" FROM "chats_filemessage" INNER JOIN "chats_chat" ON ("chats_filemessage"."chat_id" = "chats_chat"."id") INNER JOIN "accounts_userprofile" ON ("chats_filemessage"."sender_id" = "accounts_userprofile"."id") ORDER BY "chats_filemessage"."id" DESC; args=(); alias=default
+Exception while resolving variable 'get_short_name' in template 'admin/change_list.html'.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/utils/functional.py", line 253, in inner
+    return func(_wrapped, *args)
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'UserProfile' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 901, in _resolve_lookup
+    current = getattr(current, bit)
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/utils/functional.py", line 253, in inner
+    return func(_wrapped, *args)
+           ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'UserProfile' object has no attribute 'get_short_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'get_short_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [get_short_name] in <SimpleLazyObject: <UserProfile: 09137246224>>
+Exception while resolving variable 'get_short_name' in template 'admin/change_list.html'.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/utils/functional.py", line 253, in inner
+    return func(_wrapped, *args)
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'UserProfile' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 901, in _resolve_lookup
+    current = getattr(current, bit)
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/utils/functional.py", line 253, in inner
+    return func(_wrapped, *args)
+           ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'UserProfile' object has no attribute 'get_short_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'get_short_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [get_short_name] in <SimpleLazyObject: <UserProfile: 09137246224>>
+(0.000) SELECT "accounts_userprofile"."id", "accounts_userprofile"."password", "accounts_userprofile"."is_superuser", "accounts_userprofile"."phone_number", "accounts_userprofile"."first_name", "accounts_userprofile"."last_name", "accounts_userprofile"."profile_picture", "accounts_userprofile"."is_active", "accounts_userprofile"."is_staff", "accounts_userprofile"."email_verified", "accounts_userprofile"."last_login", "accounts_userprofile"."phone_number_verified" FROM "accounts_userprofile" INNER JOIN "chats_chat_participants" ON ("accounts_userprofile"."id" = "chats_chat_participants"."userprofile_id") WHERE "chats_chat_participants"."chat_id" = 4; args=(4,); alias=default
+(0.000) SELECT "accounts_userprofile"."id", "accounts_userprofile"."password", "accounts_userprofile"."is_superuser", "accounts_userprofile"."phone_number", "accounts_userprofile"."first_name", "accounts_userprofile"."last_name", "accounts_userprofile"."profile_picture", "accounts_userprofile"."is_active", "accounts_userprofile"."is_staff", "accounts_userprofile"."email_verified", "accounts_userprofile"."last_login", "accounts_userprofile"."phone_number_verified" FROM "accounts_userprofile" INNER JOIN "chats_chat_participants" ON ("accounts_userprofile"."id" = "chats_chat_participants"."userprofile_id") WHERE "chats_chat_participants"."chat_id" = 4; args=(4,); alias=default
+(0.000) SELECT "accounts_userprofile"."id", "accounts_userprofile"."password", "accounts_userprofile"."is_superuser", "accounts_userprofile"."phone_number", "accounts_userprofile"."first_name", "accounts_userprofile"."last_name", "accounts_userprofile"."profile_picture", "accounts_userprofile"."is_active", "accounts_userprofile"."is_staff", "accounts_userprofile"."email_verified", "accounts_userprofile"."last_login", "accounts_userprofile"."phone_number_verified" FROM "accounts_userprofile" INNER JOIN "chats_chat_participants" ON ("accounts_userprofile"."id" = "chats_chat_participants"."userprofile_id") WHERE "chats_chat_participants"."chat_id" = 2; args=(2,); alias=default
+(0.000) SELECT "accounts_userprofile"."id", "accounts_userprofile"."password", "accounts_userprofile"."is_superuser", "accounts_userprofile"."phone_number", "accounts_userprofile"."first_name", "accounts_userprofile"."last_name", "accounts_userprofile"."profile_picture", "accounts_userprofile"."is_active", "accounts_userprofile"."is_staff", "accounts_userprofile"."email_verified", "accounts_userprofile"."last_login", "accounts_userprofile"."phone_number_verified" FROM "accounts_userprofile" INNER JOIN "chats_chat_participants" ON ("accounts_userprofile"."id" = "chats_chat_participants"."userprofile_id") WHERE "chats_chat_participants"."chat_id" = 2; args=(2,); alias=default
+(0.003) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2025-05-10T22:29:41.130258+00:00'::timestamptz AND "django_session"."session_key" = 'j7nn3e5snozm9gwujtqxtaxblvxnhe41') LIMIT 21; args=(datetime.datetime(2025, 5, 10, 22, 29, 41, 130258, tzinfo=datetime.timezone.utc), 'j7nn3e5snozm9gwujtqxtaxblvxnhe41'); alias=default
+(0.003) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2025-05-10T22:29:41.130258+00:00'::timestamptz AND "django_session"."session_key" = 'j7nn3e5snozm9gwujtqxtaxblvxnhe41') LIMIT 21; args=(datetime.datetime(2025, 5, 10, 22, 29, 41, 130258, tzinfo=datetime.timezone.utc), 'j7nn3e5snozm9gwujtqxtaxblvxnhe41'); alias=default
+(0.001) SELECT "accounts_userprofile"."id", "accounts_userprofile"."password", "accounts_userprofile"."is_superuser", "accounts_userprofile"."phone_number", "accounts_userprofile"."first_name", "accounts_userprofile"."last_name", "accounts_userprofile"."profile_picture", "accounts_userprofile"."is_active", "accounts_userprofile"."is_staff", "accounts_userprofile"."email_verified", "accounts_userprofile"."last_login", "accounts_userprofile"."phone_number_verified" FROM "accounts_userprofile" WHERE "accounts_userprofile"."id" = 1 LIMIT 21; args=(1,); alias=default
+(0.001) SELECT "accounts_userprofile"."id", "accounts_userprofile"."password", "accounts_userprofile"."is_superuser", "accounts_userprofile"."phone_number", "accounts_userprofile"."first_name", "accounts_userprofile"."last_name", "accounts_userprofile"."profile_picture", "accounts_userprofile"."is_active", "accounts_userprofile"."is_staff", "accounts_userprofile"."email_verified", "accounts_userprofile"."last_login", "accounts_userprofile"."phone_number_verified" FROM "accounts_userprofile" WHERE "accounts_userprofile"."id" = 1 LIMIT 21; args=(1,); alias=default
+Exception while resolving variable 'name' in template 'unknown'.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/usr/local/lib/python3.11/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/usr/local/lib/python3.11/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/views/static.py", line 51, in serve
+    raise Http404(_("“%(path)s” does not exist") % {"path": fullpath})
+django.http.response.Http404: “/app/media/samplefile.pdf” does not exist
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 890, in _resolve_lookup
+    raise TypeError
+TypeError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 901, in _resolve_lookup
+    current = getattr(current, bit)
+              ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'URLResolver' object has no attribute 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [name] in <URLResolver <URLPattern list> (admin:admin) 'admin/'>
+Exception while resolving variable 'name' in template 'unknown'.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/usr/local/lib/python3.11/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/usr/local/lib/python3.11/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/views/static.py", line 51, in serve
+    raise Http404(_("“%(path)s” does not exist") % {"path": fullpath})
+django.http.response.Http404: “/app/media/samplefile.pdf” does not exist
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 890, in _resolve_lookup
+    raise TypeError
+TypeError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 901, in _resolve_lookup
+    current = getattr(current, bit)
+              ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'URLResolver' object has no attribute 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [name] in <URLResolver <URLPattern list> (admin:admin) 'admin/'>
+Exception while resolving variable 'name' in template 'unknown'.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/usr/local/lib/python3.11/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/usr/local/lib/python3.11/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/views/static.py", line 51, in serve
+    raise Http404(_("“%(path)s” does not exist") % {"path": fullpath})
+django.http.response.Http404: “/app/media/samplefile.pdf” does not exist
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 890, in _resolve_lookup
+    raise TypeError
+TypeError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 901, in _resolve_lookup
+    current = getattr(current, bit)
+              ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'URLResolver' object has no attribute 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [name] in <URLResolver <module 'accounts.urls' from '/app/accounts/urls.py'> (None:None) 'accounts/'>
+Exception while resolving variable 'name' in template 'unknown'.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/usr/local/lib/python3.11/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/usr/local/lib/python3.11/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/views/static.py", line 51, in serve
+    raise Http404(_("“%(path)s” does not exist") % {"path": fullpath})
+django.http.response.Http404: “/app/media/samplefile.pdf” does not exist
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 890, in _resolve_lookup
+    raise TypeError
+TypeError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 901, in _resolve_lookup
+    current = getattr(current, bit)
+              ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'URLResolver' object has no attribute 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [name] in <URLResolver <module 'accounts.urls' from '/app/accounts/urls.py'> (None:None) 'accounts/'>
+Exception while resolving variable 'name' in template 'unknown'.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/usr/local/lib/python3.11/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/usr/local/lib/python3.11/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/views/static.py", line 51, in serve
+    raise Http404(_("“%(path)s” does not exist") % {"path": fullpath})
+django.http.response.Http404: “/app/media/samplefile.pdf” does not exist
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 890, in _resolve_lookup
+    raise TypeError
+TypeError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 901, in _resolve_lookup
+    current = getattr(current, bit)
+              ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'URLResolver' object has no attribute 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [name] in <URLResolver <module 'chats.urls' from '/app/chats/urls.py'> (None:None) 'chats/'>
+Exception while resolving variable 'name' in template 'unknown'.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/usr/local/lib/python3.11/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/usr/local/lib/python3.11/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/django/views/static.py", line 51, in serve
+    raise Http404(_("“%(path)s” does not exist") % {"path": fullpath})
+django.http.response.Http404: “/app/media/samplefile.pdf” does not exist
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 890, in _resolve_lookup
+    raise TypeError
+TypeError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 901, in _resolve_lookup
+    current = getattr(current, bit)
+              ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'URLResolver' object has no attribute 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/template/base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [name] in <URLResolver <module 'chats.urls' from '/app/chats/urls.py'> (None:None) 'chats/'>
+Not Found: /media/samplefile.pdf
+Not Found: /media/samplefile.pdf

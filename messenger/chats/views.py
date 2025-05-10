@@ -11,6 +11,10 @@ from .models import Chat
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.parsers import MultiPartParser, FormParser
+from .models import FileMessage
+from .serializers import FileMessageSerializer
+from .tasks import compress_chat_file
 
 
 class ChatListView(generics.ListAPIView):
@@ -195,3 +199,26 @@ class ChatMessagesWithUserView(APIView):
             },
             status=status.HTTP_200_OK,
         )
+
+
+class FileUploadAPIView(APIView):
+    parser_classes = [MultiPartParser, FormParser]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, chat_id):
+        chat = get_object_or_404(Chat, id=chat_id)
+
+        if request.user not in chat.participants.all():
+            return Response({"error": "Unauthorized"}, status=403)
+
+        file = request.FILES.get("file")
+        if not file:
+            return Response({"error": "No file provided"}, status=400)
+
+        file_message = FileMessage.objects.create(
+            chat=chat, sender=request.user, file=file
+        )
+
+        compress_chat_file.delay(file_message.id)
+
+        return Response(FileMessageSerializer(file_message).data, status=201)

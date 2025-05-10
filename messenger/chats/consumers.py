@@ -28,24 +28,34 @@ class ChatConsumer(AsyncWebsocketConsumer):
         text_data_json = json.loads(text_data)
         message = text_data_json["message"]
         message_type = text_data_json["message_type"]
+        file_url = text_data_json.get("file_url")
 
         chat = await database_sync_to_async(Chat.objects.get)(id=self.chat_id)
         sender = self.user
 
-        await database_sync_to_async(Message.objects.create)(
-            chat=chat, sender=sender, content=message, message_type=message_type
-        )
-        sender_phone_number = sender.phone_number
-
-        await self.channel_layer.group_send(
-            self.group_name,
-            {
-                "type": "chat_message",
-                "message": message,
-                "message_type": message_type,
-                "sender": sender_phone_number,
-            },
-        )
+        if message_type == "file" and file_url:
+            await self.channel_layer.group_send(
+                self.group_name,
+                {
+                    "type": "chat_message",
+                    "message_type": message_type,
+                    "file_url": file_url,
+                    "sender": sender.phone_number,
+                },
+            )
+        else:
+            await database_sync_to_async(Message.objects.create)(
+                chat=chat, sender=sender, content=message, message_type=message_type
+            )
+            await self.channel_layer.group_send(
+                self.group_name,
+                {
+                    "type": "chat_message",
+                    "message": message,
+                    "message_type": message_type,
+                    "sender": sender.phone_number,
+                },
+            )
 
     async def chat_message(self, event):
         message = event["message"]

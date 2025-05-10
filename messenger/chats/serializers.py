@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Chat, Message
+from .models import Chat, Message, FileMessage
 from accounts.models import UserProfile
 
 
@@ -21,3 +21,9 @@ class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
         fields = ["id", "chat", "sender", "content", "timestamp", "media"]
+
+
+class FileMessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FileMessage
+        fields = ["id", "chat", "sender", "file", "timestamp"]

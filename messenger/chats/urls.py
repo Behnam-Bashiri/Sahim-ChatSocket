@@ -15,4 +15,5 @@ urlpatterns = [
         ChatMessagesWithUserView.as_view(),
         name="chat-with-user",
     ),
+    path("upload-file/<int:chat_id>/", FileUploadAPIView.as_view(), name="upload-file"),
 ]

@@ -18,13 +18,10 @@ def compress_profile_image(user_id):
 
         image_path = user.profile_picture.path
         img = Image.open(image_path)
-
-        # بررسی فرمت مجاز
         if img.format not in ["JPEG", "JPG", "PNG"]:
             print(f"Unsupported image format: {img.format}")
             return
 
-        # کاهش کیفیت
         img = img.convert("RGB")
         img.save(image_path, "JPEG", quality=70, optimize=True)
 
