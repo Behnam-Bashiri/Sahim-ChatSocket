@@ -3,12 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WebSocket Chat</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>WebSocket Test</title>
+    <script src="https://cdn.tailwindcss.com "></script>
   </head>
   <body class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="w-full max-w-xl p-4 bg-white shadow-xl rounded-xl">
-      <h1 class="text-2xl font-bold mb-4 text-center">💬 WebSocket Chat</h1>
+      <h1 class="text-2xl font-bold mb-4 text-center">🔌 WebSocket Tester</h1>
 
       <!-- Chat Messages -->
       <div id="chatBox" class="h-64 overflow-y-auto p-3 border border-gray-200 rounded-lg bg-gray-50 mb-4 space-y-2">
@@ -20,65 +20,84 @@
         <input type="text" id="messageInput" class="flex-1 border border-gray-300 p-2 rounded-lg" placeholder="پیام خود را بنویسید..." />
         <button id="sendBtn" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">ارسال</button>
       </div>
-
-      <!-- JWT & Chat ID Input -->
-      <div class="mt-6 space-y-2">
-        <input type="text" id="jwtToken" placeholder="🔑 JWT Token" class="w-full border border-gray-300 p-2 rounded-lg" />
-        <input type="number" id="chatId" placeholder="💬 Chat ID" class="w-full border border-gray-300 p-2 rounded-lg" />
-        <button id="connectBtn" class="w-full mt-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">اتصال به چت</button>
-      </div>
     </div>
 
     <script>
+      const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ3MzM2OTEyLCJpYXQiOjE3NDY5MDQ5MTIsImp0aSI6IjkzMzI5NjIwMjk0NjQ3Njk4Yjc5NTI3MTRiMDYzMTM3IiwidXNlcl9pZCI6M30.9Bokj4gfL4hWTWjGNRkr-w3kHs5hh0S_xx3WEckapuU'
+      const chatId = 4
       let socket = null
+      let retryCount = 0
+      const maxRetries = 5
       
       const chatBox = document.getElementById('chatBox')
       const messageInput = document.getElementById('messageInput')
       const sendBtn = document.getElementById('sendBtn')
-      const jwtInput = document.getElementById('jwtToken')
-      const chatIdInput = document.getElementById('chatId')
-      const connectBtn = document.getElementById('connectBtn')
       
-      connectBtn.onclick = () => {
-        const token = jwtInput.value.trim()
-        const chatId = chatIdInput.value.trim()
-        if (!token || !chatId) {
-          alert('لطفاً JWT Token و Chat ID را وارد کنید')
-          return
-        }
+      function logMessage(text, type = 'info') {
+        const div = document.createElement('div')
+        div.className = `text-xs p-1 rounded ${type === 'error' ? 'bg-red-100 text-red-600' : 'bg-yellow-100 text-yellow-700'}`
+        div.textContent = text
+        chatBox.appendChild(div)
+        chatBox.scrollTop = chatBox.scrollHeight
+      }
       
-        const wsUrl = `ws://localhost:8000/ws/chat/${chatId}/?token=${token}`
+      function connectWebSocket() {
+        const wsUrl = `ws://localhost:8000/ws/chat/${chatId}/?token=${accessToken}`
         socket = new WebSocket(wsUrl)
       
         socket.onopen = () => {
-          alert('✅ اتصال برقرار شد')
+          retryCount = 0
+          console.log('✅ اتصال برقرار شد')
+          logMessage('✅ اتصال برقرار شد', 'info')
         }
       
         socket.onmessage = (e) => {
           const data = JSON.parse(e.data)
           const div = document.createElement('div')
           div.className = 'p-2 rounded-md bg-white shadow border text-sm'
-          div.innerHTML = `<strong>${data.sender}:</strong> ${data.message} <span class="text-gray-400 text-xs block">${data.timestamp}</span>`
+          div.innerHTML = `<strong>${data.sender}:</strong> ${data.content} <span class="text-gray-400 text-xs block">${data.timestamp}</span>`
           chatBox.appendChild(div)
           chatBox.scrollTop = chatBox.scrollHeight
         }
       
-        socket.onclose = () => {
-          alert('❌ اتصال قطع شد')
+        socket.onclose = (e) => {
+          console.warn('❌ اتصال قطع شد', e)
+          if (retryCount < maxRetries) {
+            retryCount++
+            logMessage(`🔄 تلاش برای اتصال مجدد (${retryCount})...`, 'info')
+            setTimeout(connectWebSocket, 3000)
+          } else {
+            logMessage('🚫 تلاش‌های اتصال بیش از حد مجاز. بررسی تنظیمات لازم است.', 'error')
+          }
         }
       
         socket.onerror = (e) => {
-          console.error('WebSocket Error', e)
+          console.error('⚠️ خطای WebSocket:', e)
+          socket.close()
         }
+      }
+      
+      window.onload = () => {
+        connectWebSocket()
       }
       
       sendBtn.onclick = () => {
         const msg = messageInput.value.trim()
-        if (msg && socket && socket.readyState === WebSocket.OPEN) {
-          socket.send(JSON.stringify({ message: msg }))
-          messageInput.value = ''
-        }
+        if (!msg || !socket || socket.readyState !== WebSocket.OPEN) return
+      
+        socket.send(JSON.stringify({ type: 'text', content: msg }))
+        messageInput.value = ''
+      
+        const div = document.createElement('div')
+        div.className = 'p-2 rounded-md bg-blue-100 ml-auto max-w-xs text-sm'
+        div.innerHTML = `<strong>من:</strong> ${msg} <span class="text-gray-400 text-xs block">${new Date().toLocaleTimeString()}</span>`
+        chatBox.appendChild(div)
+        chatBox.scrollTop = chatBox.scrollHeight
       }
+      
+      messageInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') sendBtn.click()
+      })
     </script>
   </body>
 </html>

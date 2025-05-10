@@ -1,94 +1,71 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
+from django.contrib.auth.models import User
+from django.db import close_old_connections
+from asgiref.sync import sync_to_async
+from .models import Message, Chat
 from channels.db import database_sync_to_async
-from django.core.exceptions import ObjectDoesNotExist
-from accounts.models import UserProfile
-from chats.models import Chat, Message
-import logging
-
-logger = logging.getLogger(__name__)
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.chat_id = self.scope["url_route"]["kwargs"]["chat_id"]
-        self.room_group_name = f"chat_{self.chat_id}"
+        self.user = self.scope["user"]
 
-        # Add to group
-        await self.channel_layer.group_add(self.room_group_name, self.channel_name)
+        if not await self.user_in_chat(self.user, self.chat_id):
+            await self.close()
+            return
 
-        # Accept connection
+        self.group_name = f"chat_{self.chat_id}"
+        await self.channel_layer.group_add(self.group_name, self.channel_name)
+
         await self.accept()
 
     async def disconnect(self, close_code):
-        # Remove from group
-        await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
+        await self.channel_layer.group_discard(self.group_name, self.channel_name)
 
     async def receive(self, text_data):
-        logger.info("Receiving message...")
+        text_data_json = json.loads(text_data)
+        message = text_data_json["message"]
+        message_type = text_data_json["message_type"]
 
-        # تلاش برای تجزیه داده‌ها
-        try:
-            data = json.loads(text_data)
-            message = data["message"]
-        except json.JSONDecodeError:
-            logger.error("Failed to decode message: %s", text_data)
-            return
+        chat = await database_sync_to_async(Chat.objects.get)(id=self.chat_id)
+        sender = self.user
 
-        logger.info("Message received: %s", message)
+        await database_sync_to_async(Message.objects.create)(
+            chat=chat, sender=sender, content=message, message_type=message_type
+        )
+        sender_phone_number = sender.phone_number
 
-        sender = self.scope["user"]
-
-        # اطمینان از احراز هویت فرستنده
-        if not sender.is_authenticated:
-            logger.warning("Unauthenticated user tried to send a message.")
-            await self.close()
-            return
-
-        # تلاش برای بازیابی چت
-        chat = await self.get_chat(self.chat_id)
-        if not chat:
-            logger.error("Chat not found for chat_id: %s", self.chat_id)
-            await self.close()
-            return
-
-        # ایجاد پیام
-        msg = await self.create_message(chat, sender, message)
-        logger.info("Message created with ID: %s, timestamp: %s", msg.id, msg.timestamp)
-
-        # ارسال پیام به گروه
-        try:
-            await self.channel_layer.group_send(
-                self.room_group_name,
-                {
-                    "type": "chat_message",
-                    "message": message,
-                    "sender": sender.phone_number,
-                    "timestamp": str(msg.timestamp),
-                },
-            )
-            logger.info("Message sent to group: %s", self.room_group_name)
-        except Exception as e:
-            logger.error("Error sending message to group: %s", e)
+        await self.channel_layer.group_send(
+            self.group_name,
+            {
+                "type": "chat_message",
+                "message": message,
+                "message_type": message_type,
+                "sender": sender_phone_number,
+            },
+        )
 
     async def chat_message(self, event):
-        # Send message to WebSocket
-        await self.send(text_data=json.dumps(event))
+        message = event["message"]
+        message_type = event["message_type"]
+        sender = event["sender"]
 
-    @database_sync_to_async
-    def get_user(self, phone_number):
-        try:
-            return UserProfile.objects.get(phone_number=phone_number)
-        except UserProfile.DoesNotExist:
-            return None
+        await self.send(
+            text_data=json.dumps(
+                {
+                    "message": message,
+                    "message_type": message_type,
+                    "sender": sender,
+                }
+            )
+        )
 
-    @database_sync_to_async
-    def get_chat(self, chat_id):
+    @sync_to_async
+    def user_in_chat(self, user, chat_id):
         try:
-            return Chat.objects.get(id=chat_id)
+            chat = Chat.objects.get(id=chat_id)
+            return chat.participants.filter(id=user.id).exists()
         except Chat.DoesNotExist:
-            return None
-
-    @database_sync_to_async
-    def create_message(self, chat, sender, content):
-        return Message.objects.create(chat=chat, sender=sender, content=content)
+            return False
