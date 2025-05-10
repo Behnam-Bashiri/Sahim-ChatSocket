@@ -13,6 +13,9 @@ from django.shortcuts import get_object_or_404
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import filters
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import IsAuthenticated
 
 
 class VerifyOTPView(generics.GenericAPIView):
@@ -151,18 +154,46 @@ class UserProfileView(generics.RetrieveUpdateAPIView):
 
 class UserListView(generics.ListAPIView):
     serializer_class = UserProfileSerializer
+    permission_classes = [IsAuthenticated]
+
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ["phone_number"]
+    ordering_fields = [
+        "phone_number",
+        "created_at",
+    ]
+    ordering = ["phone_number"]
+
+    pagination_class = PageNumberPagination
 
     @swagger_auto_schema(
-        operation_summary="لیست کاربران با قابلیت جست‌وجو",
+        operation_summary="لیست کاربران با قابلیت جست‌وجو، مرتب‌سازی و صفحه‌بندی",
         manual_parameters=[
             openapi.Parameter(
                 "search",
                 openapi.IN_QUERY,
-                description="جست‌وجو بر اساس شماره تلفن یا نام کاربری",
+                description="جست‌وجو بر اساس شماره یا نام کاربری",
                 type=openapi.TYPE_STRING,
             ),
+            openapi.Parameter(
+                "ordering",
+                openapi.IN_QUERY,
+                description="مرتب‌سازی مثل ordering=phone_number",
+                type=openapi.TYPE_STRING,
+            ),
+            openapi.Parameter(
+                "page",
+                openapi.IN_QUERY,
+                description="شماره صفحه",
+                type=openapi.TYPE_INTEGER,
+            ),
+            openapi.Parameter(
+                "page_size",
+                openapi.IN_QUERY,
+                description="تعداد آیتم در هر صفحه",
+                type=openapi.TYPE_INTEGER,
+            ),
         ],
-        responses={200: openapi.Response(description="لیست کاربران یافت شده")},
     )
     def get_queryset(self):
         query = self.request.query_params.get("search", None)

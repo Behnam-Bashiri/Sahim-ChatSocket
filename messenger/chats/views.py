@@ -14,6 +14,11 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from .tasks import compress_chat_file
 from rest_framework import serializers
 from .repositories import FileRepository
+from rest_framework.pagination import PageNumberPagination
+
+
+class ChatUserListPagination(PageNumberPagination):
+    page_size = 20
 
 
 class ChatListView(generics.ListAPIView):
@@ -71,6 +76,7 @@ class ChatListView(generics.ListAPIView):
 
 class ChatUserListView(APIView):
     permission_classes = [IsAuthenticated]
+    pagination_class = ChatUserListPagination
 
     @swagger_auto_schema(
         operation_summary="جستجوی کاربران با فیلتر نام یا شماره",
@@ -232,6 +238,7 @@ class PreviousChatUsersView(APIView):
 
 class ChatMessagesWithUserView(APIView):
     permission_classes = [IsAuthenticated]
+    pagination_class = PageNumberPagination
 
     @swagger_auto_schema(
         operation_summary="دریافت پیام‌های چت با یک کاربر خاص",
