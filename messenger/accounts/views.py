@@ -160,7 +160,6 @@ class UserListView(generics.ListAPIView):
     search_fields = ["phone_number"]
     ordering_fields = [
         "phone_number",
-        "created_at",
     ]
     ordering = ["phone_number"]
 
