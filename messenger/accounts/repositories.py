@@ -13,7 +13,7 @@ class UserProfileRepository:
             return None, False
 
     @staticmethod
-    def get_user_by_phone(phone_number):
+    def get_user_by_phone(phone_number: str) -> UserProfile:
         return UserProfile.objects.filter(phone_number=phone_number).first()
 
 
