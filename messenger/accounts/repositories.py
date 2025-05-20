@@ -1,12 +1,12 @@
-# accounts/repositories.py
 from .models import UserProfile, PhoneOTP
 from django.db import IntegrityError
-from django.db.models import Q
+from django.db.models import Q, QuerySet
+from typing import Optional, Tuple, Union, Set
 
 
 class UserProfileRepository:
     @staticmethod
-    def create_or_get_user(phone_number):
+    def create_or_get_user(phone_number: str) -> Tuple[Optional[UserProfile], bool]:
         try:
             user, created = UserProfile.objects.get_or_create(phone_number=phone_number)
             return user, created
@@ -14,15 +14,15 @@ class UserProfileRepository:
             return None, False
 
     @staticmethod
-    def get_user_by_phone(phone_number: str) -> UserProfile:
+    def get_user_by_phone(phone_number: str) -> Optional[UserProfile]:
         return UserProfile.objects.filter(phone_number=phone_number).first()
 
     @staticmethod
-    def get_users_by_ids(user_ids: set[int]):
+    def get_users_by_ids(user_ids: Set[int]) -> QuerySet[UserProfile]:
         return UserProfile.objects.filter(id__in=user_ids)
 
     @staticmethod
-    def list_users(search: str | None = None):
+    def list_users(search: Optional[str] = None) -> QuerySet[UserProfile]:
         qs = UserProfile.objects.all()
         if search:
             qs = qs.filter(
@@ -32,8 +32,11 @@ class UserProfileRepository:
 
     @staticmethod
     def search_users(
-        phone_number="", first_name="", last_name="", exclude_user_id=None
-    ):
+        phone_number: str = "",
+        first_name: str = "",
+        last_name: str = "",
+        exclude_user_id: Optional[int] = None,
+    ) -> QuerySet[UserProfile]:
         filters = Q()
 
         if phone_number:
@@ -52,19 +55,19 @@ class UserProfileRepository:
 
 class PhoneOTPRepository:
     @staticmethod
-    def get_otp(phone_number, otp_code):
+    def get_otp(phone_number: str, otp_code: str) -> Optional[PhoneOTP]:
         return PhoneOTP.objects.filter(
             phone_number=phone_number, otp_code=otp_code
         ).first()
 
     @staticmethod
-    def create_otp(phone_number, otp_code):
+    def create_otp(phone_number: str, otp_code: str) -> PhoneOTP:
         otp = PhoneOTP(phone_number=phone_number, otp_code=otp_code)
         otp.save()
         return otp
 
     @staticmethod
-    def delete_otp(phone_number, otp_code):
+    def delete_otp(phone_number: str, otp_code: str) -> bool:
         otp = PhoneOTP.objects.filter(
             phone_number=phone_number, otp_code=otp_code
         ).first()

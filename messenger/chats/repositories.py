@@ -13,11 +13,7 @@ class ChatRepository:
 
         if len(participants) == 2:
             user1, user2 = participants
-
-            from_user = user1
-            to_user = user2 if user1 != from_user else user1
-
-            other_user = user2 if user1 == from_user else user1
+            other_user = user2 if user1 == participants[0] else user1
             chat.chat_name = f"{other_user.first_name} {other_user.last_name}".strip()
 
         chat.save()
@@ -68,6 +64,6 @@ class MessageRepository:
 
 class FileRepository:
     @staticmethod
-    def get_file_messege(chat, sender, fileIO):
+    def get_file_message(chat, sender, fileIO):
         file_message = FileMessage.objects.create(chat=chat, sender=sender, file=fileIO)
         return file_message

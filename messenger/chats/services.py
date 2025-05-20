@@ -21,7 +21,7 @@ class ChatService:
 
     @staticmethod
     def get_or_create_chat_with_user(user, other_user):
-        chat = ChatRepository.get_chats_with_user(user, other_user)
+        chat = ChatRepository.get_chats_with_user(user, other_user).first()
         if not chat:
             chat = ChatService.create_chat_between_users(user, other_user)
         return chat

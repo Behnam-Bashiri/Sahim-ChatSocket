@@ -18,8 +18,10 @@ from rest_framework.pagination import PageNumberPagination
 from accounts.services import UserProfileService
 
 
-class ChatUserListPagination(PageNumberPagination):
-    page_size = 20
+class StandardResultsSetPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = "page_size"
+    max_page_size = 100
 
 
 class ChatListView(generics.ListAPIView):
@@ -77,7 +79,7 @@ class ChatListView(generics.ListAPIView):
 
 class ChatUserListView(APIView):
     permission_classes = [IsAuthenticated]
-    pagination_class = ChatUserListPagination
+    pagination_class = StandardResultsSetPagination
 
     @swagger_auto_schema(
         operation_summary="جستجوی کاربران با فیلتر نام یا شماره",
@@ -190,6 +192,7 @@ class CreateChatView(APIView):
 
 class PreviousChatUsersView(APIView):
     permission_classes = [IsAuthenticated]
+    pagination_class = StandardResultsSetPagination
 
     @swagger_auto_schema(
         operation_summary="کاربران قبلی چت",
@@ -227,7 +230,7 @@ class PreviousChatUsersView(APIView):
 
 class ChatMessagesWithUserView(APIView):
     permission_classes = [IsAuthenticated]
-    pagination_class = PageNumberPagination
+    pagination_class = StandardResultsSetPagination
 
     @swagger_auto_schema(
         operation_summary="دریافت پیام‌های چت با یک کاربر خاص",
@@ -293,7 +296,7 @@ class FileUploadAPIView(APIView):
         if not file:
             return Response({"error": "No file provided"}, status=400)
 
-        file_message = FileRepository.get_file_messege(chat, request.user, file)
+        file_message = FileRepository.get_file_message(chat, request.user, file)
 
         compress_chat_file.delay(file_message.id)
 
