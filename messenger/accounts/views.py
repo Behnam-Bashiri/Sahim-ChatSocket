@@ -32,6 +32,7 @@ class VerifyOTPView(generics.GenericAPIView):
                     "application/json": {
                         "detail": "OTP verified successfully",
                         "access_token": "your_access_token_here",
+                        "refresh_token": "your_refresh_token_here",
                     }
                 },
             ),
@@ -56,6 +57,7 @@ class VerifyOTPView(generics.GenericAPIView):
                 {
                     "detail": "OTP verified successfully",
                     "access_token": access_token,
+                    "refresh_token": str(refresh),
                 },
                 status=status.HTTP_200_OK,
             )
@@ -195,9 +197,5 @@ class UserListView(generics.ListAPIView):
         ],
     )
     def get_queryset(self):
-        query = self.request.query_params.get("search", None)
-        if query:
-            return UserProfile.objects.filter(
-                Q(phone_number__icontains=query) | Q(username__icontains=query)
-            )
-        return UserProfile.objects.all()
+        search = self.request.query_params.get("search")
+        return UserProfileRepository.list_users(search)

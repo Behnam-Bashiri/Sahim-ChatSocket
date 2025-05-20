@@ -28,3 +28,16 @@ class AuthService:
         if otp and not otp.is_expired():
             return True
         return False
+
+
+class UserProfileService:
+    @staticmethod
+    def search_users_by_filters(
+        phone_number="", first_name="", last_name="", exclude_user_id=None
+    ):
+        return UserProfileRepository.search_users(
+            phone_number=phone_number,
+            first_name=first_name,
+            last_name=last_name,
+            exclude_user_id=exclude_user_id,
+        )

@@ -1,6 +1,8 @@
 # chat/repositories.py
 from .models import Chat, Message, FileMessage
 from accounts.models import UserProfile
+from django.shortcuts import get_object_or_404
+from django.db.models import Q
 
 
 class ChatRepository:
@@ -33,6 +35,14 @@ class ChatRepository:
     def get_chats_with_user(user, other_user):
         return Chat.objects.filter(participants=user).filter(participants=other_user)
 
+    @staticmethod
+    def get_chat_between_users(user1, phone_number):
+        user2 = get_object_or_404(UserProfile, phone_number=phone_number)
+        chat = (
+            Chat.objects.filter(participants=user1).filter(participants=user2).first()
+        )
+        return chat, user2
+
 
 class MessageRepository:
     @staticmethod
@@ -50,6 +60,10 @@ class MessageRepository:
     @staticmethod
     def get_messages_for_chat(chat):
         return Message.objects.filter(chat=chat)
+
+    @staticmethod
+    def get_ordered_messages_for_chat(chat):
+        return Message.objects.filter(chat=chat).order_by("timestamp")
 
 
 class FileRepository:

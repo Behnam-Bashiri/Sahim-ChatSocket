@@ -1,6 +1,8 @@
 # chat/services.py
 from .repositories import ChatRepository, MessageRepository
 from accounts.models import UserProfile
+from rest_framework.exceptions import NotFound
+from accounts.repositories import UserProfileRepository
 
 
 class ChatService:
@@ -23,3 +25,36 @@ class ChatService:
         if not chat:
             chat = ChatService.create_chat_between_users(user, other_user)
         return chat
+
+    @staticmethod
+    def get_chat_messages_with_user(current_user, phone_number):
+        try:
+            other_user = UserProfile.objects.get(phone_number=phone_number)
+        except UserProfile.DoesNotExist:
+            raise NotFound("User with this phone number not found.")
+
+        chat_qs = ChatRepository.get_chats_with_user(current_user, other_user)
+        chat = chat_qs.first()
+
+        if not chat:
+            raise NotFound("No chat found between users.")
+
+        messages = MessageRepository.get_ordered_messages_for_chat(chat)
+
+        return {
+            "chat": chat,
+            "participants": chat.participants.all(),
+            "messages": messages,
+        }
+
+    @staticmethod
+    def get_contacts_for_user(user):
+        chats = ChatRepository.get_chats_for_user(user).prefetch_related("participants")
+
+        other_user_ids: set[int] = set()
+        for chat in chats:
+            other_user_ids.update(
+                chat.participants.exclude(id=user.id).values_list("id", flat=True)
+            )
+
+        return UserProfileRepository.get_users_by_ids(other_user_ids)

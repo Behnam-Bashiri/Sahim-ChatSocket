@@ -15,6 +15,7 @@ from .tasks import compress_chat_file
 from rest_framework import serializers
 from .repositories import FileRepository
 from rest_framework.pagination import PageNumberPagination
+from accounts.services import UserProfileService
 
 
 class ChatUserListPagination(PageNumberPagination):
@@ -121,16 +122,12 @@ class ChatUserListView(APIView):
         first_name = request.query_params.get("first_name", "").strip()
         last_name = request.query_params.get("last_name", "").strip()
 
-        filters = Q()
-
-        if phone_number:
-            filters &= Q(phone_number__icontains=phone_number)
-        if first_name:
-            filters &= Q(first_name__icontains=first_name)
-        if last_name:
-            filters &= Q(last_name__icontains=last_name)
-
-        users = UserProfile.objects.filter(filters).exclude(id=request.user.id)
+        users = UserProfileService.search_users_by_filters(
+            phone_number=phone_number,
+            first_name=first_name,
+            last_name=last_name,
+            exclude_user_id=request.user.id,
+        )
 
         data = [
             {
@@ -213,15 +210,7 @@ class PreviousChatUsersView(APIView):
         },
     )
     def get(self, request):
-        user = request.user
-        chats = ChatService.get_chats_for_user(user)
-        user_ids = set()
-
-        for chat in chats:
-            participants = chat.participants.exclude(id=user.id)
-            user_ids.update(participants.values_list("id", flat=True))
-
-        users = UserProfile.objects.filter(id__in=user_ids)
+        contacts = ChatService.get_contacts_for_user(request.user)
 
         data = [
             {
@@ -230,7 +219,7 @@ class PreviousChatUsersView(APIView):
                 "last_name": u.last_name,
                 "profile_picture": u.profile_picture.url if u.profile_picture else None,
             }
-            for u in users
+            for u in contacts
         ]
 
         return Response(data, status=status.HTTP_200_OK)
@@ -258,25 +247,17 @@ class ChatMessagesWithUserView(APIView):
         },
     )
     def get(self, request, phone_number):
-        user1 = request.user
-        user2 = get_object_or_404(UserProfile, phone_number=phone_number)
+        try:
+            result = ChatService.get_chat_messages_with_user(request.user, phone_number)
+        except Exception as e:
+            return Response({"detail": str(e)}, status=status.HTTP_404_NOT_FOUND)
 
-        chat = (
-            Chat.objects.filter(participants=user1).filter(participants=user2).first()
-        )
+        serialized_messages = MessageSerializer(result["messages"], many=True)
 
-        if not chat:
-            return Response(
-                {"detail": "No chat found between users."},
-                status=status.HTTP_404_NOT_FOUND,
-            )
-
-        messages = chat.messages.all().order_by("timestamp")
-        serialized_messages = MessageSerializer(messages, many=True)
         return Response(
             {
-                "chat_id": chat.id,
-                "participants": [p.phone_number for p in chat.participants.all()],
+                "chat_id": result["chat"].id,
+                "participants": [p.phone_number for p in result["participants"]],
                 "messages": serialized_messages.data,
             },
             status=status.HTTP_200_OK,
