@@ -29,6 +29,7 @@ if ENV == "publish":
 
 INSTALLED_APPS = [
     "django.contrib.admin",
+    "modern_django_admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -208,3 +209,42 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+MODERN_ADMIN_SITE_TITLE = "Sahim ChatSocket Admin"
+MODERN_ADMIN_SITE_HEADER = "Sahim ChatSocket Administration"
+MODERN_ADMIN_INDEX_TITLE = "Welcome to Sahim ChatSocket Admin"
+
+MODERN_ADMIN_ENABLE_DARK_MODE = True
+MODERN_ADMIN_DEFAULT_THEME = "system"
+
+MODERN_ADMIN_GLOBAL_SEARCH_ENABLED = True
+MODERN_ADMIN_GLOBAL_SEARCH_MODELS_WHITELIST = [
+    "accounts.UserProfile",
+    "accounts.PhoneOTP",
+    "chats.Chat",
+    "chats.Message",
+    "chats.FileMessage",
+]
+
+MODERN_ADMIN_DASHBOARD_WIDGETS = [
+    {
+        "type": "count",
+        "app_label": "accounts",
+        "model_name": "userprofile",
+        "title": "Total Users",
+    },
+    {
+        "type": "count",
+        "app_label": "chats",
+        "model_name": "chat",
+        "title": "Total Chats",
+    },
+    {
+        "type": "count",
+        "app_label": "chats",
+        "model_name": "message",
+        "title": "Total Messages",
+    },
+]
+
+MODERN_ADMIN_RTL_FORCE = None

@@ -2,7 +2,8 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
-
+from django.views.generic.base import RedirectView
+from modern_django_admin.admin import modern_admin_site
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
@@ -20,7 +21,14 @@ schema_view = get_schema_view(
 
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path(
+        "favicon.ico",
+        RedirectView.as_view(
+            url=f"{settings.STATIC_URL}rest_framework/docs/img/favicon.ico",
+            permanent=True,
+        ),
+    ),
+    path("admin/", modern_admin_site.urls),
     path("accounts/", include("accounts.urls")),
     path("chats/", include("chats.urls")),
     re_path(

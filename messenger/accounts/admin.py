@@ -1,11 +1,7 @@
 from django.contrib import admin
-from .models import UserProfile, PhoneOTP
-from django.utils.html import format_html
-from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import UserProfile
-from django.forms import TextInput, Textarea
-from django import forms
+from .models import UserProfile, PhoneOTP
+from modern_django_admin.admin import modern_admin_site
 
 
 class UserProfileAdmin(UserAdmin):
@@ -59,6 +55,5 @@ class PhoneOTPAdmin(admin.ModelAdmin):
     is_expired_status.short_description = "OTP Status"
 
 
-# Registering models in admin
-admin.site.register(UserProfile, UserProfileAdmin)
-admin.site.register(PhoneOTP, PhoneOTPAdmin)
+modern_admin_site.register(UserProfile, UserProfileAdmin)
+modern_admin_site.register(PhoneOTP, PhoneOTPAdmin)

@@ -1,8 +1,8 @@
 from django.contrib import admin
+from modern_django_admin.admin import modern_admin_site
 from .models import Chat, Message, FileMessage
 
 
-@admin.register(Chat)
 class ChatAdmin(admin.ModelAdmin):
     list_display = (
         "id",
@@ -21,7 +21,6 @@ class ChatAdmin(admin.ModelAdmin):
     get_participants.short_description = "Participants"
 
 
-@admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
     list_display = (
         "id",
@@ -36,8 +35,12 @@ class MessageAdmin(admin.ModelAdmin):
     search_fields = ("content", "sender__phone_number")
 
 
-@admin.register(FileMessage)
 class FileMessageAdmin(admin.ModelAdmin):
     list_display = ("id", "chat", "sender", "file", "timestamp")
     search_fields = ("sender__phone_number",)
     list_filter = ("timestamp",)
+
+
+modern_admin_site.register(Chat, ChatAdmin)
+modern_admin_site.register(Message, MessageAdmin)
+modern_admin_site.register(FileMessage, FileMessageAdmin)
